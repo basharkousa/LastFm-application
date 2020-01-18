@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="album_details"
+            type="com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.Album" />
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar_album_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gradient_end_blue">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    app:layout_scrollFlags="enterAlways|scroll"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_scrollFlags="enterAlways|snap"
+                        android:background="@color/primaryBlack">
+
+                        <ImageView
+                            android:id="@+id/iv_search_btn"
+                            android:layout_width="@dimen/d10"
+                            android:layout_height="?attr/actionBarSize"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/d0_2"
+                            android:background="@drawable/transparent_gray_button"
+                            android:padding="@dimen/d0_2"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/last_fmpng" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d16"
+                                android:layout_gravity="end"
+                                android:scaleType="centerCrop"
+                                app:imgUrl="@{album_details.imageUrl}" />
+
+                            <ImageView
+                                android:id="@+id/iv_cover_store_details"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d16"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/gradient_green" />
+
+                            <ProgressBar
+                                android:id="@+id/prgrs_cover_store"
+                                style="@android:style/Widget.Holo.ProgressBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|center_vertical"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardImageStore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|end"
+                            android:layout_marginEnd="@dimen/d2_4"
+                            android:layout_marginBottom="@dimen/d2_4"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/transparent"
+                            app:cardElevation="@dimen/d0_8">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|center_horizontal">
+
+                                <ImageView
+                                    android:id="@+id/iv_album_image"
+                                    android:layout_width="@dimen/d9"
+                                    android:layout_height="@dimen/d9"
+                                    android:layout_gravity="center_horizontal"
+                                    app:imgUrl="@{album_details.imageUrl}"
+                                    android:background="@drawable/default_album_art" />
+
+                                <ProgressBar
+                                    android:id="@+id/prgrs_profile_stor"
+                                    style="@android:style/Widget.Holo.ProgressBar.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal|center_vertical"
+                                    android:visibility="gone"
+
+                                    />
+
+                            </FrameLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|start"
+                            android:layout_marginStart="@dimen/d2"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_artist_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{album_details.artist}"
+                                android:maxLength="20"
+                                android:ellipsize="end"
+                                android:textColor="@color/primaryBackground"
+                                android:textSize="@dimen/very_small_text"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_album_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{album_details.name}"
+                                android:textColor="@color/tabs_white"
+                                android:maxLength="20"
+                                android:ellipsize="end"
+                                android:textSize="@dimen/large_text"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <FrameLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/d0_8">
+
+                                    <FrameLayout
+                                        android:id="@+id/btn_bookmark_active"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/round_button"
+                                        android:padding="@dimen/d1">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/d2"
+                                            android:layout_height="@dimen/d2"
+                                            android:scaleType="fitCenter"
+                                            android:src="@drawable/bookmarkactive" />
+
+                                    </FrameLayout>
+
+                                    <FrameLayout
+                                        android:id="@+id/btn_bookmark_not_active"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/round_button"
+                                        android:padding="@dimen/d1"
+                                        >
+
+                                        <ImageView
+                                            android:layout_width="@dimen/d2"
+                                            android:layout_height="@dimen/d2"
+                                            android:scaleType="fitCenter"
+                                            android:src="@drawable/bookmarknotactive" />
+
+                                    </FrameLayout>
+
+
+                                </FrameLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/listeners"
+                                        android:textColor="@color/primaryBackground"
+                                        android:textSize="@dimen/very_small_text" />
+
+                                    <TextView
+                                        android:id="@+id/tv_listeners"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/tabs_white"
+                                        android:textSize="@dimen/medium_text"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:id="@+id/layout_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/d0_4"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="20"
+                                android:padding="@dimen/d0_8"
+                                android:text='@{album_details.wiki.summary??"Description not found !!"}'>
+
+                            </TextView>
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/d0_8"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="start"
+                                    android:layout_margin="@dimen/d0_2"
+                                    android:textColor="@color/primaryBlack"
+                                    android:layout_weight="1"
+                                    android:text="@string/length"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tv_length"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="start"
+                                    android:layout_weight="1"
+                                    android:textSize="@dimen/very_small_text" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="start"
+                                    android:textColor="@color/primaryBlack"
+                                    android:layout_margin="@dimen/d0_2"
+                                    android:layout_weight="1"
+                                    android:text="@string/release_date"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tv_release_date"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="start"
+                                    android:layout_weight="1"
+                                    android:text="20 October 1998"
+                                    android:textSize="@dimen/very_small_text" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <co.lujun.androidtagview.TagContainerLayout
+                            android:id="@+id/tagcontainerLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:padding="10dp"
+                            app:container_background_color="@color/tabs_white"
+                            app:container_border_color="@color/tabs_white"
+                            app:container_enable_drag="false"
+                            app:horizontal_interval="10dp"
+                            app:tag_background_color="@color/tabs_white"
+                            app:tag_border_color="@color/main_light_blue"
+                            app:tag_clickable="true"
+                            app:tag_corner_radius="18dp"
+                            app:tag_text_color="@color/main_light_blue"
+                            app:tag_theme="none"
+                            app:vertical_interval="10dp"
+
+
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/d1_6"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_marginStart="@dimen/d1_6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tracklist"
+                                android:layout_gravity="start"
+                                android:gravity="start"
+                                android:textColor="@color/primaryBlack"
+                                android:textSize="@dimen/medium_text"
+                                android:textStyle="bold" />
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recycler_track_list"
+                                    android:layout_margin="@dimen/d0_8"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"/>
+                                <TextView
+                                    android:id="@+id/tv_no_tracks"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:visibility="gone"
+                                    android:text="@string/no_tracks"
+                                    />
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/layout_prgrs"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+                        <ProgressBar
+                            android:layout_gravity="center"
+                            android:layout_width="@dimen/d4"
+                            android:layout_margin="@dimen/d4"
+                            android:visibility="gone"
+                            android:layout_height="@dimen/d4"/>
+                    </FrameLayout>
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/iv_retry_content"
+                        android:layout_width="@dimen/d3"
+                        android:layout_height="@dimen/d3"
+                        android:src="@drawable/retry"
+                        android:layout_gravity="center"
+                        />
+
+
+                </FrameLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
+</layout>

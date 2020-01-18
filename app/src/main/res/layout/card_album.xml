@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="album_model"
+            type="com.clicagency.lastfmapp.data.local.entity.Album" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_artist"
+        android:theme="@style/LastFmCard"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/iv_album"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d15"
+                android:scaleType="centerCrop"
+                app:imgUrlz="@{album_model.imageUrl}"
+                android:background="@drawable/default_album_art"
+                />
+            <TextView
+                android:id="@+id/tv_album_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{album_model.name}"
+                android:layout_marginTop="@dimen/d0_8"
+                android:layout_marginStart="@dimen/d0_8"
+                android:textStyle="bold"
+                android:textColor="@color/primaryBlack"
+                />
+            <TextView
+                android:id="@+id/tv_artist_listener"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3,779 listeners"
+                android:layout_marginStart="@dimen/d0_8"
+                android:textSize="@dimen/very_small_text"
+                android:layout_marginTop="@dimen/d0_6"
+                android:padding="@dimen/d0_1"
+                android:textColor="@color/primaryGray"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_album_tracks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:layout_marginStart="@dimen/d0_8"
+                    android:layout_marginEnd="@dimen/d0_1"
+                    android:text="@{album_model.playcount}"
+                    android:textSize="@dimen/very_small_text"
+                    android:layout_marginTop="@dimen/d0_6"
+                    android:padding="@dimen/d0_2"
+                    android:textColor="@color/gray_camera_selfie"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:layout_marginStart="@dimen/d0_1"
+                    android:layout_marginEnd="@dimen/d0_8"
+                    android:text="@string/tracks"
+                    android:textSize="@dimen/very_small_text"
+                    android:layout_marginTop="@dimen/d0_6"
+                    android:padding="@dimen/d0_2"
+                    android:textColor="@color/gray_camera_selfie"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

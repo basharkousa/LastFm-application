@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="track_model"
+            type="com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.Track" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/LastFmCard"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
+     <FrameLayout
+         android:layout_margin="@dimen/d0_4"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal">
+
+             <TextView
+                 android:id="@+id/tv_num"
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:textSize="@dimen/small_text"
+                 android:textColor="@color/primaryBlack"
+                 android:layout_margin="@dimen/d0_4"
+                 android:layout_gravity="center"
+                 android:gravity="center"
+                 />
+             <ImageView
+                 android:layout_width="@dimen/d2"
+                 android:layout_height="@dimen/d2"
+                 android:layout_margin="@dimen/d0_4"
+                 android:src="@drawable/play1"
+                 />
+             <ImageView
+                 android:layout_width="@dimen/d2"
+                 android:layout_height="@dimen/d2"
+                 android:src="@drawable/heartnot"
+                 android:tint="@color/main_red"
+                 android:layout_gravity="center"
+                 android:layout_margin="@dimen/d0_4"
+                 />
+
+             <TextView
+                 android:id="@+id/tv_track_name"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@{track_model.name}"
+                 android:textSize="@dimen/small_text"
+                 android:textStyle="bold"
+                 android:ellipsize="end"
+                 android:maxLength="20"
+                 android:textColor="@color/primaryBlack"
+                 android:layout_margin="@dimen/d0_8"
+                 android:layout_gravity="center"
+                 android:gravity="center"
+                 />
+         </LinearLayout>
+         <TextView
+             android:id="@+id/tv_duration"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             app:duration_value = "@{track_model.duration}"
+             android:textSize="@dimen/small_text"
+             android:textColor="@color/light_gray"
+             android:layout_margin="@dimen/d0_8"
+             android:layout_gravity="end|center_vertical"
+             android:gravity="center"
+             />
+     </FrameLayout>
+
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/d0_1"
+         android:layout_marginEnd="@dimen/d1"
+         android:layout_marginStart="@dimen/d1"
+         android:background="@color/tabs_very_gray"/>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Last FM App</string>
+    <string name="double_click">Please click again to exit .</string>
+    <string name="search_for_music">Search for artists…</string>
+    <string name="nothing_to_show">Nothing to show</string>
+    <string name="failed_to_connect">Please check your internet connection</string>
+    <string name="pelase_enter_value">Please enter what you want to search for</string>
+    <string name="tracks">tracks</string>
+    <string name="albums">albums</string>
+    <string name="listeners">listeners</string>
+    <string name="tracklist">Tracklist</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="no_album_in_your_database">There are no albums in the database. Please go to the search to choose your favorite albums and save them</string>
+    <string name="album_id_is_null">Album ID is empty, you cannot save this album to Database</string>
+    <string name="release_date">Release Date</string>
+    <string name="length">Length</string>
+    <string name="no_tracks">No tracks</string>
+
+
+</resources>

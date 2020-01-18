@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="separator_margin">8dp</dimen>
+    <dimen name="small_separator_margin">4dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="check_mark_padding">12dp</dimen>
+    <dimen name="min_btn_height">40dp</dimen>
+    <dimen name="drawable_corners">24dp</dimen>
+    <dimen name="drawable_corners_norm">16dp</dimen>
+
+
+    <dimen name="d0_1">1dp</dimen>
+    <dimen name="d0_2">2dp</dimen>
+    <dimen name="d0_4">4dp</dimen>
+    <dimen name="d0_6">6dp</dimen>
+    <dimen name="d0_8">8dp</dimen>
+    <dimen name="d1">10dp</dimen>
+    <dimen name="d1_2">12dp</dimen>
+    <dimen name="d1_4">14dp</dimen>
+    <dimen name="d1_6">16dp</dimen>
+    <dimen name="d1_8">18dp</dimen>
+    <dimen name="d2">20dp </dimen>
+    <dimen name="d2_4">24dp</dimen>
+    <dimen name="d3">30dp</dimen>
+    <dimen name="d3_4">34dp</dimen>
+    <dimen name="d3_6">36dp</dimen>
+    <dimen name="d4">40dp</dimen>
+    <dimen name="d4_2">42dp</dimen>
+    <dimen name="d4_4">44dp</dimen>
+    <dimen name="d4_8">48dp</dimen>
+    <dimen name="d5">50dp</dimen>
+    <dimen name="d6">60dp</dimen>
+    <dimen name="d7">70dp</dimen>
+    <dimen name="d8">80dp</dimen>
+    <dimen name="d9">90dp</dimen>
+    <dimen name="d10">100dp</dimen>
+    <dimen name="d11">110dp</dimen>
+    <dimen name="d12">120dp</dimen>
+    <dimen name="d13">130dp</dimen>
+    <dimen name="d14">140dp</dimen>
+    <dimen name="d15">150dp</dimen>
+    <dimen name="d16">160dp</dimen>
+    <dimen name="d18">180dp</dimen>
+    <dimen name="d20">200dp</dimen>
+    <dimen name="d24">240dp</dimen>
+    <dimen name="d26">260dp</dimen>
+
+    <dimen name="very_small_text">12sp</dimen>
+    <dimen name="small_text">14sp</dimen>
+    <dimen name="medium_text">18sp</dimen>
+    <dimen name="normal_text">16sp</dimen>
+    <dimen name="large_text">22sp</dimen>
+    <dimen name="very_large_text">42sp</dimen>
+    <dimen name="d30">300dp</dimen>
+    <dimen name="d40">400dp</dimen>
+
+
+</resources>

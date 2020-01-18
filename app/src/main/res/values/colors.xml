@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#303030</color>
+    <color name="colorPrimaryLight">#D4D4D4</color>
+
+    <color name="colorAccent">#BA0000</color>
+    <color name="shadow_color">#bbe6f5</color>
+    <color name="shadow_color_light">#CBE2EE</color>
+    <color name="transparentClorAcent">#7ABA0000</color>
+
+    <color name="primaryBackground">#d5dbd7</color>
+    <color name="primaryGray">#a3aaa8</color>
+    <color name="primaryBlack">#000000</color>
+    <color name="sekary">#f6f6f6</color>
+    <color name="gradient_start_blue">#e4f0f5</color>
+    <color name="gradient_end_blue">#f5f9fb</color>
+    <color name="gray_camera_selfie">#939393</color>
+
+    <color name="main_green">#02A651</color>
+    <color name="main_orange">#ffa500</color>
+    <color name="light_orange">#78ffa500</color>
+    <color name="main_green_pressed">#017D35</color>
+    <color name="main_orange_pressed">#C37800</color>
+    <color name="colorHighlight">#B61E22</color>
+
+    <color name="light_gray">#AAAAAA</color>
+    <color name="medium_light_gray">#AAAAAA</color>
+
+    <color name="medium_gray">#666666</color>
+    <color name="error">#D00000</color>
+    <color name="dark_gray">#333333</color>
+    <color name="main_green_light">#7802A651</color>
+    <color name="tabs_gray">#E1E1E1</color>
+    <color name="tabs_very_gray">#f1f2f2f2</color>
+    <color name="very_gray">#f2f2f2</color>
+
+
+    <color name="very_light_gray">#EEEEEE</color>
+    <color name="tabs_white">#FFFFFF</color>
+    <color name="transparent_gray">#80FFFFFF</color>
+    <color name="transparent_light_gray">#33FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="light_background">#DFF0D8</color>
+    <color name="yellow_green">#9ACD32</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="main_green_brother">#DD02A651</color>
+
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+
+    <color name="main_red">#ffff4b4b</color>
+    <color name="light_hint">#99FFFFFF</color>
+
+    <color name="main_light_blue">#03A9F4</color>
+    <color name="main_teal">#009688</color>
+    <color name="store_background">#6dc066</color>
+
+    <color name="material1">#1abc9c</color>
+    <color name="material2">#2ecc71</color>
+    <color name="material3">#3498db</color>
+    <color name="material4">#9b59b6</color>
+    <color name="material5">#34495e</color>
+    <color name="material6">#16a085</color>
+    <color name="material7">#27ae60</color>
+    <color name="material8">#2980b9</color>
+    <color name="material9">#8e44ad</color>
+    <color name="material10">#2c3e50</color>
+    <color name="material11">#f1c40f</color>
+    <color name="material12">#e67e22</color>
+    <color name="material13">#e74c3c</color>
+    <color name="material14">#7f8c8d</color>
+    <color name="material15">#95a5a6</color>
+    <color name="material16">#f39c12</color>
+    <color name="material17">#d35400</color>
+    <color name="material18">#c0392b</color>
+
+    <color name="light_purple">#e3f2fd</color>
+
+    <color name="very_light_orange">#3fffa500</color>
+    <color name="transparent_white">#33FFFFFF</color>
+    <color name="very_light_green">#CC02A651</color>
+    <color name="transparent_green">#6402a651</color>
+    <color name="transparent_orang">#63ff9800</color>
+
+    <color name="facebook_blue">#3b5998</color>
+    <color name="facebook_dark">#3b5972</color>
+    <color name="google_red">#EA4335</color>
+    <color name="google_dark">#BB4335</color>
+
+    <color name="bg_screen1">#ff9800</color>
+    <color name="bg_screen2">#ffc107</color>
+    <color name="bg_screen3">#cddc39</color>
+    <color name="bg_screen4">#8bc34a</color>
+    <color name="bg_screen5">#4caf50</color>
+
+
+
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#a46200</color>
+    <color name="dot_dark_screen2">#c19100</color>
+    <color name="dot_dark_screen3">#94a300</color>
+    <color name="dot_dark_screen4">#4f9300</color>
+    <color name="dot_dark_screen5">#008605</color>
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#ffbf61</color>
+    <color name="dot_light_screen2">#ffe28a</color>
+    <color name="dot_light_screen3">#e4f169</color>
+    <color name="dot_light_screen4">#c8ff89</color>
+    <color name="dot_light_screen5">#86ff8b</color>
+
+    <color name="bg_edit_text">#A51fff44</color>
+
+    <color name="bg_edit_textV2">#000000</color>
+
+    <color name="control_background">#cc4285f4</color>
+    <color name="transparentClororAcent">#6ABA0000</color>
+
+</resources>

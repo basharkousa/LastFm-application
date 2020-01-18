@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_seaarch_fragmnet_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:focusableInTouchMode="true"
+        >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarSearchTabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryBlack"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/d0_4"
+                android:orientation="horizontal"
+                app:layout_scrollFlags="enterAlways|scroll"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/d1_2"
+                    android:layout_margin="@dimen/d0_4"
+                    app:cardBackgroundColor="@color/transparent"
+                    app:cardElevation="@dimen/d0_4">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_bg_search"
+                        >
+                        <ImageView
+                            android:id="@+id/iv_search_btn"
+                            android:background="@drawable/transparent_gray_button"
+                            android:src="@drawable/search"
+                            android:scaleType="centerInside"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="@dimen/d0_1"
+                            android:layout_centerVertical="true"
+                            android:tint="@color/tabs_white"
+                            android:layout_width="wrap_content"
+                            android:padding="@dimen/d0_2"
+                            android:layout_height="match_parent" />
+                        <EditText
+                            android:id="@+id/ed_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/iv_search_btn"
+                            android:background="@android:color/transparent"
+                            android:padding="@dimen/d0_8"
+                            android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+                            android:gravity="start|center_vertical"
+                            android:hint="@string/search_for_music"
+                            android:textColorHint="@color/primaryGray"
+                            android:imeOptions="actionSearch"
+                            android:singleLine="true"
+                            android:textCursorDrawable="@null"
+                            android:textColor="@color/tabs_white">
+                        </EditText>
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:id="@+id/root_layout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/list_layout"
+                    android:layout_weight="100"
+                    android:layout_height="0dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/empty_tv"
+                        android:visibility="gone"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                        android:textColor="@color/light_gray"
+                        android:text="@string/nothing_to_show"/>
+                    <ImageView
+                        android:layout_width="@dimen/d4"
+                        android:layout_height="@dimen/d4"
+                        android:scaleType="centerInside"
+                        android:background="@color/tabs_white"
+                        android:padding="@dimen/d0_4"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"
+                        android:theme="@style/LastFmCard"
+                        android:id="@+id/retry_btn"
+                        android:layout_gravity="center"
+                        android:src="@drawable/retry"/>
+                </FrameLayout>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/d0_4"
+                    android:layout_marginTop="@dimen/d0_4"
+                    android:visibility="gone"
+                    android:id="@+id/more_prgrs"
+                    style="@android:style/Widget.DeviceDefault.ProgressBar.Small"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

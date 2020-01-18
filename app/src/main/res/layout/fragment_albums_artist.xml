@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_albums_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:focusableInTouchMode="true"
+        >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarAlbums"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tabs_white"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_scrollFlags="enterAlways|snap"
+                >
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/d0_8"
+                        >
+                        <ImageView
+                            android:id="@+id/iv_search_btn"
+                            android:background="@drawable/transparent_gray_button"
+                            android:src="@drawable/last_fmpng"
+                            android:scaleType="centerInside"
+                            android:layout_width="@dimen/d10"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="@dimen/d0_2"
+                            android:padding="@dimen/d0_2"
+                            android:layout_height="?attr/actionBarSize" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/d0_8"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_artist_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="?attr/actionBarSize"
+                                android:textColor="@color/primaryBlack"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/medium_text"
+                                android:padding="@dimen/d0_2"
+                                android:layout_marginStart="@dimen/d0_2"
+                                android:ellipsize="marquee"
+                                android:text="Rekey"
+                                android:gravity="center"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="?attr/actionBarSize"
+                                android:textColor="@color/primaryBlack"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/medium_text"
+                                android:ellipsize="marquee"
+                                android:text="@string/albums"
+                                android:gravity="center_vertical"
+                                />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+            </LinearLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:id="@+id/root_layout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/list_layout"
+                    android:layout_weight="100"
+                    android:layout_height="0dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/empty_tv"
+                        android:visibility="gone"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                        android:textColor="@color/light_gray"
+                        android:text="@string/nothing_to_show"/>
+                    <ImageView
+                        android:layout_width="@dimen/d4"
+                        android:layout_height="@dimen/d4"
+                        android:scaleType="centerInside"
+                        android:background="@color/tabs_white"
+                        android:padding="@dimen/d0_4"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"
+                        android:theme="@style/LastFmCard"
+                        android:id="@+id/retry_btn"
+                        android:layout_gravity="center"
+                        android:src="@drawable/retry"/>
+                </FrameLayout>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/d0_4"
+                    android:layout_marginTop="@dimen/d0_4"
+                    android:visibility="gone"
+                    android:id="@+id/more_prgrs"
+                    style="@android:style/Widget.DeviceDefault.ProgressBar.Small"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
