@@ -379,12 +379,12 @@
                         android:id="@+id/layout_prgrs"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone"
                         >
                         <ProgressBar
                             android:layout_gravity="center"
                             android:layout_width="@dimen/d4"
                             android:layout_margin="@dimen/d4"
-                            android:visibility="gone"
                             android:layout_height="@dimen/d4"/>
                     </FrameLayout>
                     <ImageView
