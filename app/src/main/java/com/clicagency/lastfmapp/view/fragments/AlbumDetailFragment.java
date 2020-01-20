@@ -16,7 +16,7 @@ import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.Track;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumsArtist.Artist;
 import com.clicagency.lastfmapp.databinding.FragmentAlbumDetailsBinding;
-import com.clicagency.lastfmapp.tools.AnimationUtils;
+import com.clicagency.lastfmapp.tools.AnimationUtilss;
 import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.view.adapters.TracksAdapter;
 import com.clicagency.lastfmapp.view.base.BaseFragment;
@@ -216,12 +216,12 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     }
 
     private void showBookMarkActive() {
-        dataBinding.btnBookmarkActive.setAnimation(AnimationUtils.getScaleAnimation());
+        dataBinding.btnBookmarkActive.setAnimation(AnimationUtilss.getScaleAnimation());
         dataBinding.btnBookmarkActive.setVisibility(View.VISIBLE);
     }
 
     private void showBookMarkNotActive() {
-        dataBinding.btnBookmarkNotActive.setAnimation(AnimationUtils.getScaleAnimation());
+        dataBinding.btnBookmarkNotActive.setAnimation(AnimationUtilss.getScaleAnimation());
         dataBinding.btnBookmarkNotActive.setVisibility(View.VISIBLE);
     }
 
