@@ -1,17 +1,13 @@
 package com.clicagency.lastfmapp.view.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.clicagency.lastfmapp.R;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.AlbumDetailsRespnse;
@@ -33,7 +29,8 @@ import java.util.List;
 public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, FragmentAlbumDetailsBinding> {
 
     private Album album;
-    private String albumName = "";
+    private String artistName = "";
+    private String albumName= "";
 
     public void setAlbum(Album album) {
         this.album = album;
@@ -48,10 +45,12 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     protected ViewModelProvider.Factory getViewModelFactory() {
 
         if (album != null) {
+            albumName = album.getName();
             if (album.getArtist() != null)
-                albumName = album.getArtist().getName();
+                artistName = album.getArtist().getName();
             else
-                albumName = album.getArtist_name();
+                artistName = album.getArtist_name();
+
         }
 
 
@@ -59,7 +58,7 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new AlbumDetailsViewModel(parent.getApplication(), album.getName(), albumName);
+                return (T) new AlbumDetailsViewModel(parent.getApplication(), albumName, artistName);
             }
         };
     }
