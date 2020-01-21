@@ -2,11 +2,20 @@ package com.clicagency.lastfmapp.tools;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import java.util.Map;
 import java.util.NavigableMap;
@@ -63,8 +72,7 @@ public class BasicTools {
     /**/
 
 
-    public static String formatSeconds(int timeInSeconds)
-    {
+    public static String formatSeconds(int timeInSeconds) {
         int hours = timeInSeconds / 3600;
         int secondsLeft = timeInSeconds - hours * 3600;
         int minutes = secondsLeft / 60;
@@ -85,4 +93,44 @@ public class BasicTools {
 
         return formattedTime;
     }
+
+    private static void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span,Activity activity)
+    {
+        int start = strBuilder.getSpanStart(span);
+        int end = strBuilder.getSpanEnd(span);
+        int flags = strBuilder.getSpanFlags(span);
+        ClickableSpan clickable = new ClickableSpan() {
+            public void onClick(View view) {
+               open_website(span.getURL(),activity);
+               Log.e("DESCRIPTIOPN:",span.getURL()) ;
+            }
+        };
+        strBuilder.setSpan(clickable, start, end, flags);
+        strBuilder.removeSpan(span);
+    }
+
+    public static void setTextViewHTML(TextView text, String html,Activity activity)
+    {
+        CharSequence sequence = Html.fromHtml(html);
+        SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
+        URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
+        for(URLSpan span : urls) {
+            makeLinkClickable(strBuilder, span,activity);
+        }
+        text.setText(strBuilder);
+        text.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public static void open_website(String url, Activity activity) {
+        try {
+            String edited = url;
+            if (!url.startsWith("http"))
+                edited = "http://" + url;
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(edited));
+            activity.startActivity(browserIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

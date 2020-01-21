@@ -1,13 +1,17 @@
 package com.clicagency.lastfmapp.view.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.clicagency.lastfmapp.R;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.AlbumDetailsRespnse;
@@ -84,48 +88,32 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
         dataBinding.ivRetryContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadAlbumDetails();
+                getAlbumsDetails();
             }
         });
 
     }
 
-    private void saveAlbumInDatabase(Album album) {
-        if (album.getArtist() != null && album.getMbid()!=null) {
-            album.setArtist_name(album.getArtist().getName());
-            album.setImage_url_database(album.getImageUrl());
-            viewModel.insert(album);
-        }
-
-    }
-
     @Override
     public void init_fragment(Bundle savedInstanceState) {
-        loadAlbumDetails();
+        getAlbumsDetails();
+        observeAlbumDetails();
+        observeErrorMessage();
         handleBookmarkState();
     }
-
 
     @Override
     public boolean on_back_pressed() {
         return true;
     }
 
-
-    private void loadAlbumDetails() {
+    private void getAlbumsDetails() {
+        dataBinding.ivRetryContent.setVisibility(View.GONE);
         dataBinding.layoutPrgrs.setVisibility(View.VISIBLE);
         dataBinding.layoutContent.setVisibility(View.GONE);
         disableBookMarkBtns();
         if (BasicTools.isConnected(parent)) {
-            viewModel.getAlbumDetails().observe(this, new Observer<AlbumDetailsRespnse>() {
-                @Override
-                public void onChanged(AlbumDetailsRespnse albumDetailsRespnse) {
-                    dataBinding.setAlbumDetails(albumDetailsRespnse.getAlbum());
-                    //showTags(albumDetailsRespnse);
-                    fillAllAlbumsItems(albumDetailsRespnse);
-
-                }
-            });
+            viewModel.getAlbumDetails();
         } else {
             parent.showTostMessage(R.string.failed_to_connect);
             disableBookMarkBtns();
@@ -136,18 +124,67 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
         }
     }
 
+    private void observeAlbumDetails() {
+        viewModel.getMutableLiveDataAlbum().observe(this, new Observer<AlbumDetailsRespnse>() {
+            @Override
+            public void onChanged(AlbumDetailsRespnse albumDetailsRespnse) {
+                dataBinding.setAlbumDetails(albumDetailsRespnse.getAlbum());
+                //showTags(albumDetailsRespnse);
+                fillAllAlbumsItems(albumDetailsRespnse);
+
+            }
+        });
+    }
+
+    private void observeErrorMessage() {
+        viewModel.getErrorMessageReceived().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                dataBinding.layoutPrgrs.setVisibility(View.GONE);
+                dataBinding.layoutContent.setVisibility(View.GONE);
+                dataBinding.ivRetryContent.setVisibility(View.VISIBLE);
+                disableBookMarkBtns();
+                parent.showToastMessageShort(s);
+            }
+        });
+    }
+
     private void fillAllAlbumsItems(AlbumDetailsRespnse albumDetailsRespnse) {
+
+        enableBookmarkBtns();
+        dataBinding.layoutPrgrs.setVisibility(View.GONE);
+        dataBinding.layoutContent.setVisibility(View.VISIBLE);
+
+        //for set artist name to album.
         Artist artist = new Artist();
         if (albumDetailsRespnse.getAlbum().getTracks().getTrack().size() > 0)
             artist.setName(albumDetailsRespnse.getAlbum().getTracks().getTrack().get(0).getArtist().getName());
         album.setArtist(artist);
-        enableBookmarkBtns();
+
+        //for tracks
         if (albumDetailsRespnse.getAlbum().getTracks().getTrack() != null)
             loadTracks(albumDetailsRespnse);
-        dataBinding.layoutPrgrs.setVisibility(View.GONE);
-        dataBinding.layoutContent.setVisibility(View.VISIBLE);
+
         long listenersLong = Long.parseLong(albumDetailsRespnse.getAlbum().getListeners());
         dataBinding.tvListeners.setText(BasicTools.format(listenersLong));
+
+        //for description
+        if (albumDetailsRespnse.getAlbum().getWiki() != null) {
+            String desc = albumDetailsRespnse.getAlbum().getWiki().getSummary();
+            BasicTools.setTextViewHTML(dataBinding.tvDesc,"<div>" + desc + "</div>",parent);
+        } else {
+            dataBinding.tvDesc.setText(R.string.no_description);
+        }
+
+    }
+
+    private void saveAlbumInDatabase(Album album) {
+        if (album.getArtist() != null && album.getMbid() != null) {
+            album.setArtist_name(album.getArtist().getName());
+            album.setImage_url_database(album.getImageUrl());
+            viewModel.insert(album);
+        }
+
     }
 
     private void loadTracks(AlbumDetailsRespnse albumDetailsRespnse) {
@@ -166,10 +203,10 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
             });
 
             int sumDuration = 0;
-            for (Track t:albumDetailsRespnse.getAlbum().getTracks().getTrack()){
-                sumDuration+= Integer.parseInt(t.getDuration());
+            for (Track t : albumDetailsRespnse.getAlbum().getTracks().getTrack()) {
+                sumDuration += Integer.parseInt(t.getDuration());
             }
-            String length_value = albumDetailsRespnse.getAlbum().getTracks().getTrack().size()+" Tracks, "+BasicTools.formatSeconds(sumDuration);
+            String length_value = albumDetailsRespnse.getAlbum().getTracks().getTrack().size() + " Tracks, " + BasicTools.formatSeconds(sumDuration);
             dataBinding.tvLength.setText(length_value);
 
         } else {

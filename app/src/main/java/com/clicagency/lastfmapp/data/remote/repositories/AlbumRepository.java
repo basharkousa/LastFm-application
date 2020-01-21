@@ -16,6 +16,7 @@ import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.AlbumDetailsRespnse;
 import com.clicagency.lastfmapp.tools.AppExecutors;
 import com.clicagency.lastfmapp.tools.Constants;
+import com.clicagency.lastfmapp.view.listeners.IResponseListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,16 +62,14 @@ public class AlbumRepository {
         return albumRepository;
     }
 
-    public MutableLiveData<AlbumDetailsRespnse> getAlbumDetailsRequest(String albumName, String artistName) {
+    public void getAlbumDetailsRequest(String albumName, String artistName, final IResponseListener<AlbumDetailsRespnse> listener) {
 
-        final MutableLiveData<AlbumDetailsRespnse> data = new MutableLiveData<>();
         if (options == null)
             options = new HashMap<>();
         options.put("api_key", Constants.API_KEY);
         options.put("format", "json");
         options.put("artist", artistName);
         options.put("album", albumName);
-
 
         Call<AlbumDetailsRespnse> callBack = lastFmAPI.getAlbumDetails(options);
         callBack.enqueue(new Callback<AlbumDetailsRespnse>() {
@@ -79,18 +78,21 @@ public class AlbumRepository {
             public void onResponse(@NonNull Call<AlbumDetailsRespnse> call, @NonNull Response<AlbumDetailsRespnse> response) {
 
                 if (response.isSuccessful()) {
-                    data.setValue(response.body());
+
+                    listener.onSuccess(response.body());
+
                 } else {
 
+                    listener.onFailure("body error");
                 }
             }
 
             @Override
             public void onFailure(Call<AlbumDetailsRespnse> call, Throwable t) {
+                listener.onFailure(t.getMessage());
 
             }
         });
-        return data;
     }
 
     //for database

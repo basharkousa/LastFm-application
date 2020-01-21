@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="album_details"
             type="com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.Album" />
     </data>
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator_layout"
             android:layout_width="match_parent"
@@ -24,15 +28,15 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    app:layout_scrollFlags="enterAlways|scroll"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    app:layout_scrollFlags="enterAlways|scroll">
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_scrollFlags="enterAlways|snap"
-                        android:background="@color/primaryBlack">
+                        android:background="@color/primaryBlack"
+                        app:layout_scrollFlags="enterAlways|snap">
 
                         <ImageView
                             android:id="@+id/iv_search_btn"
@@ -99,8 +103,8 @@
                                     android:layout_width="@dimen/d9"
                                     android:layout_height="@dimen/d9"
                                     android:layout_gravity="center_horizontal"
-                                    app:imgUrl="@{album_details.imageUrl}"
-                                    android:background="@drawable/default_album_art" />
+                                    android:background="@drawable/default_album_art"
+                                    app:imgUrl="@{album_details.imageUrl}" />
 
                                 <ProgressBar
                                     android:id="@+id/prgrs_profile_stor"
@@ -128,9 +132,9 @@
                                 android:id="@+id/tv_artist_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@{album_details.artist}"
-                                android:maxLength="20"
                                 android:ellipsize="end"
+                                android:maxLength="20"
+                                android:text="@{album_details.artist}"
                                 android:textColor="@color/primaryBackground"
                                 android:textSize="@dimen/very_small_text"
                                 android:textStyle="bold" />
@@ -139,10 +143,10 @@
                                 android:id="@+id/tv_album_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLength="20"
                                 android:text="@{album_details.name}"
                                 android:textColor="@color/tabs_white"
-                                android:maxLength="20"
-                                android:ellipsize="end"
                                 android:textSize="@dimen/large_text"
                                 android:textStyle="bold" />
 
@@ -176,8 +180,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:background="@drawable/round_button"
-                                        android:padding="@dimen/d1"
-                                        >
+                                        android:padding="@dimen/d1">
 
                                         <ImageView
                                             android:layout_width="@dimen/d2"
@@ -228,9 +231,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:id="@+id/layout_content"
                         android:layout_width="match_parent"
@@ -245,15 +250,15 @@
                             android:weightSum="2">
 
                             <TextView
+                                android:id="@+id/tv_desc"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="20"
                                 android:padding="@dimen/d0_8"
-                                android:text='@{album_details.wiki.summary??"Description not found !!"}'>
+                                >
 
                             </TextView>
-
 
 
                         </LinearLayout>
@@ -273,11 +278,11 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:gravity="start"
                                     android:layout_margin="@dimen/d0_2"
-                                    android:textColor="@color/primaryBlack"
                                     android:layout_weight="1"
+                                    android:gravity="start"
                                     android:text="@string/length"
+                                    android:textColor="@color/primaryBlack"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -285,8 +290,8 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:gravity="start"
                                     android:layout_weight="1"
+                                    android:gravity="start"
                                     android:textSize="@dimen/very_small_text" />
                             </LinearLayout>
 
@@ -299,11 +304,11 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:gravity="start"
-                                    android:textColor="@color/primaryBlack"
                                     android:layout_margin="@dimen/d0_2"
                                     android:layout_weight="1"
+                                    android:gravity="start"
                                     android:text="@string/release_date"
+                                    android:textColor="@color/primaryBlack"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -311,8 +316,8 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:gravity="start"
                                     android:layout_weight="1"
+                                    android:gravity="start"
                                     android:text="20 October 1998"
                                     android:textSize="@dimen/very_small_text" />
                             </LinearLayout>
@@ -339,62 +344,68 @@
 
 
                             />
+
                         <LinearLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/d1_6"
-                            android:orientation="vertical"
-                            android:layout_height="wrap_content">
+                            android:orientation="vertical">
+
                             <TextView
-                                android:layout_marginStart="@dimen/d1_6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/tracklist"
                                 android:layout_gravity="start"
+                                android:layout_marginStart="@dimen/d1_6"
                                 android:gravity="start"
+                                android:text="@string/tracklist"
                                 android:textColor="@color/primaryBlack"
                                 android:textSize="@dimen/medium_text"
                                 android:textStyle="bold" />
+
                             <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/recycler_track_list"
-                                    android:layout_margin="@dimen/d0_8"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"/>
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="@dimen/d0_8" />
+
                                 <TextView
                                     android:id="@+id/tv_no_tracks"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:visibility="gone"
                                     android:text="@string/no_tracks"
-                                    />
+                                    android:visibility="gone" />
                             </FrameLayout>
 
                         </LinearLayout>
 
                     </LinearLayout>
+
                     <FrameLayout
                         android:id="@+id/layout_prgrs"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
+
                         <ProgressBar
-                            android:layout_gravity="center"
                             android:layout_width="@dimen/d4"
-                            android:layout_margin="@dimen/d4"
-                            android:layout_height="@dimen/d4"/>
+                            android:layout_height="@dimen/d4"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/d4" />
                     </FrameLayout>
+
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/iv_retry_content"
                         android:layout_width="@dimen/d3"
                         android:layout_height="@dimen/d3"
-                        android:src="@drawable/retry"
                         android:layout_gravity="center"
-                        />
+                        android:layout_margin="@dimen/d4"
+                        android:src="@drawable/retry"
+                        android:visibility="gone" />
 
 
                 </FrameLayout>
@@ -403,4 +414,5 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </FrameLayout>
+
 </layout>
