@@ -46,6 +46,7 @@ public class BasicTools {
 
     /*for long value*/
     private static final NavigableMap<Long, String> suffixes = new TreeMap<>();
+
     static {
         suffixes.put(1_000L, "k");
         suffixes.put(1_000_000L, "M");
@@ -89,37 +90,38 @@ public class BasicTools {
 
         if (seconds < 10)
             formattedTime += "0";
-        formattedTime += seconds ;
+        formattedTime += seconds;
 
         return formattedTime;
     }
 
-    private static void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span,Activity activity)
-    {
+
+    /* for html in textView */
+    private static void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span, Activity activity) {
         int start = strBuilder.getSpanStart(span);
         int end = strBuilder.getSpanEnd(span);
         int flags = strBuilder.getSpanFlags(span);
         ClickableSpan clickable = new ClickableSpan() {
             public void onClick(View view) {
-               open_website(span.getURL(),activity);
-               Log.e("DESCRIPTIOPN:",span.getURL()) ;
+                open_website(span.getURL(), activity);
+                Log.e("DESCRIPTIOPN:", span.getURL());
             }
         };
         strBuilder.setSpan(clickable, start, end, flags);
         strBuilder.removeSpan(span);
     }
 
-    public static void setTextViewHTML(TextView text, String html,Activity activity)
-    {
+    public static void setTextViewHTML(TextView text, String html, Activity activity) {
         CharSequence sequence = Html.fromHtml(html);
         SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
         URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
-        for(URLSpan span : urls) {
-            makeLinkClickable(strBuilder, span,activity);
+        for (URLSpan span : urls) {
+            makeLinkClickable(strBuilder, span, activity);
         }
         text.setText(strBuilder);
         text.setMovementMethod(LinkMovementMethod.getInstance());
     }
+    /* */
 
     public static void open_website(String url, Activity activity) {
         try {

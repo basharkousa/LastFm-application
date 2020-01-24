@@ -19,6 +19,7 @@ import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artis
 import com.clicagency.lastfmapp.databinding.FragmentAlbumsArtistBinding;
 import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.tools.SpacesItemDecoration;
+import com.clicagency.lastfmapp.view.adapters.AlbumNetStateAdapter;
 import com.clicagency.lastfmapp.view.adapters.AlbumPagedAdapter;
 import com.clicagency.lastfmapp.view.base.BaseFragment;
 import com.clicagency.lastfmapp.view.listeners.IOnAlbumClick;
@@ -28,7 +29,7 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
 
 
     private Artist artist;
-    private final AlbumPagedAdapter adapter = new AlbumPagedAdapter(parent);
+    private AlbumNetStateAdapter adapter;
     private GridLayoutManager layout_manager;
 
     public static AlbumsArtistFragment newInstance() {
@@ -49,7 +50,7 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new AlbumViewModel(parent.getApplication(),artist.getName());
+                return (T) new AlbumViewModel(parent.getApplication(), artist.getName());
             }
         };
     }
@@ -67,19 +68,25 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
                 loadAlbums();
             }
         });
-        adapter.setClickListener(new IOnAlbumClick() {
-            @Override
-            public void itemClicked(Album album, int position,View view) {
+        adapter = new AlbumNetStateAdapter(new AlbumNetStateAdapter.IOnCLickNetStateAdapter() {
 
-                if(BasicTools.isConnected(parent)){
-                    AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment() ;
+            @Override
+            public void onRetryClicked() {
+                viewModel.retry();
+            }
+
+            @Override
+            public void itemClicked(Album album, int position, View view) {
+
+                if (BasicTools.isConnected(parent)) {
+                    AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment();
                     albumDetailFragment.setAlbum(album);
                     Bundle args = new Bundle();
                     args.putString("transitionName", "transition" + position);
                     albumDetailFragment.setArguments(args);
-                    parent.show_fragment(albumDetailFragment,view,"transition" + position);
+                    parent.show_fragment(albumDetailFragment, view, "transition" + position);
                     //parent.show_fragment2(albumDetailFragment,false);
-                }else {
+                } else {
                     parent.showToastMessageShort(R.string.failed_to_connect);
                 }
 
@@ -107,16 +114,17 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
     public void init_fragment(Bundle savedInstanceState) {
 
         if (artist != null) if (artist.getName() != null)
-                dataBinding.tvArtistName.setText(artist.getName()+"'s");
+            dataBinding.tvArtistName.setText(artist.getName() + "'s");
 
         initRecycler();
         loadAlbums();
+        viewModel.getNetworkState().observe(this, networkState -> adapter.setNetworkState(networkState));
     }
 
     private void loadAlbums() {
         dataBinding.retryBtn.setVisibility(View.GONE);
         dataBinding.rootLayout.setRefreshing(true);
-        if(BasicTools.isConnected(parent)){
+        if (BasicTools.isConnected(parent)) {
             viewModel.getAlbumPagedList().observe(this, new Observer<PagedList<Album>>() {
                 @Override
                 public void onChanged(@Nullable PagedList<Album> items) {
@@ -128,7 +136,7 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
             });
             //setting the adapter
 
-        }else {
+        } else {
             parent.showTostMessage(R.string.failed_to_connect);
             dataBinding.retryBtn.setVisibility(View.VISIBLE);
 
@@ -155,6 +163,6 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
     }
 
     public void setArtist(Artist artistnew) {
-      artist = artistnew;
+        artist = artistnew;
     }
 }

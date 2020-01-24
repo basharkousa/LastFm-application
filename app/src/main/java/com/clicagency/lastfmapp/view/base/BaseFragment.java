@@ -65,8 +65,9 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
     }
 
     public void init(Bundle savedInstanceState){
-        init_fragment(savedInstanceState);
         init_events();
+        init_fragment(savedInstanceState);
+
     }
 
     public abstract void init_events();

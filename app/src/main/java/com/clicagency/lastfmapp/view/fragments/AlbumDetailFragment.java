@@ -1,6 +1,8 @@
 package com.clicagency.lastfmapp.view.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -95,6 +97,7 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
 
     @Override
     public void init_fragment(Bundle savedInstanceState) {
+
         getAlbumsDetails();
         observeAlbumDetails();
         observeErrorMessage();

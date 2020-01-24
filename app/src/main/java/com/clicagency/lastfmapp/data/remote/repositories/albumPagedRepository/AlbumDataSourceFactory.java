@@ -9,23 +9,29 @@ import com.clicagency.lastfmapp.data.local.entity.Album;
 
 public class AlbumDataSourceFactory extends DataSource.Factory {
 
-    private MutableLiveData<PageKeyedDataSource<Integer, Album>> albumLiveDataSource = new MutableLiveData<>();
+    private MutableLiveData<AlbumDataSource> albumLiveDataSource = new MutableLiveData<>();
+
+    private AlbumDataSource albumDataSource;
 
     private String artistName;
     public AlbumDataSourceFactory(String artistName){
        this.artistName = artistName ;
+
+        this.albumLiveDataSource = new MutableLiveData<AlbumDataSource>();
     }
 
     @Override
     public DataSource create() {
-        AlbumDataSource albumDataSource = new AlbumDataSource(artistName);
-
+        albumDataSource = new AlbumDataSource(artistName);
         albumLiveDataSource.postValue(albumDataSource);
 
         return albumDataSource;
     }
 
-    public MutableLiveData<PageKeyedDataSource<Integer, Album>> getItemLiveDataSource() {
+    public MutableLiveData<AlbumDataSource> getItemLiveDataSource() {
         return albumLiveDataSource;
+    }
+    public AlbumDataSource getAlbumDataSource() {
+        return albumDataSource;
     }
 }

@@ -4,38 +4,53 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
 import com.clicagency.lastfmapp.data.local.entity.Album;
+import com.clicagency.lastfmapp.data.remote.models.NetworkState;
 import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSource;
 import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSourceFactory;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class AlbumViewModel extends ViewModel {
 
     //creating livedata for PagedList and PagedKeyedDataSource
-    LiveData<PagedList<Album>> albumPagedList;
-    LiveData<PageKeyedDataSource<Integer, Album>> liveDataSource;
 
-    //constructor
+   // LiveData<PageKeyedDataSource<Integer, Album>> liveDataSource;
+
+    private Executor executor;
+    private LiveData<PagedList<Album>> albumPagedList;
+    private LiveData<NetworkState> networkState;
+
+    private AlbumDataSourceFactory albumDataSourceFactory;
+
+
+
     public AlbumViewModel(@NonNull Application application,String artistName) {
-        //Log.e("Artist",artistName);
-        //getting our data source factory
-        AlbumDataSourceFactory albumDataSourceFactory = new AlbumDataSourceFactory(artistName);
 
-        //getting the live data source from data source factory
-        liveDataSource = albumDataSourceFactory.getItemLiveDataSource();
+        executor = Executors.newFixedThreadPool(5);
+        //getting our data source factory
+        albumDataSourceFactory = new AlbumDataSourceFactory(artistName);
+        networkState = Transformations.switchMap(albumDataSourceFactory.getItemLiveDataSource(),
+                dataSource -> dataSource.getNetworkState());
 
         //Getting PagedList config
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
-                        .setEnablePlaceholders(true)
+                        .setEnablePlaceholders(false)
+                        //.setInitialLoadSizeHint(10)
                         .setPageSize(AlbumDataSource.PAGE_SIZE).build();
 
         //Building the paged list
-        albumPagedList = (new LivePagedListBuilder(albumDataSourceFactory, pagedListConfig)).build();
+        albumPagedList = (new LivePagedListBuilder(albumDataSourceFactory, pagedListConfig))
+                .setFetchExecutor(executor)
+                .build();
     }
 
 
@@ -43,4 +58,17 @@ public class AlbumViewModel extends ViewModel {
         return albumPagedList;
     }
 
+    public LiveData<NetworkState> getNetworkState() {
+        return networkState;
+    }
+
+//    @Override
+//    protected void onCleared() {
+//        super.onCleared();
+//        albumDataSourceFactory.getAlbumDataSource().clear();
+//    }
+
+    public void retry(){
+        albumDataSourceFactory.getAlbumDataSource().retryPagination();
+    }
 }

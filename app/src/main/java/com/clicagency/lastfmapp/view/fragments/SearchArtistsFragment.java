@@ -27,7 +27,8 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
 
 
     private ArrayList<Artist> artists = new ArrayList<>();
-    private ArtistAdapter adapter;
+    private ArtistAdapter adapter = new ArtistAdapter(parent);
+    ;
 
     public static SearchArtistsFragment newInstance() {
         Bundle args = new Bundle();
