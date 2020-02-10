@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import javax.inject.Inject;
+
 public class Artist implements Serializable
 {
 
@@ -74,6 +76,7 @@ public class Artist implements Serializable
         this.image = image;
     }
 
+    @Inject
     public Artist(String url, String mbid, String tagcount, String playcount, String streamable, String name, List<Image> image,String listeners) {
         super();
         this.url = url;

@@ -20,9 +20,16 @@ import androidx.lifecycle.ViewModelProviders;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
 import com.google.android.material.snackbar.Snackbar;
 
+import javax.inject.Inject;
 
-public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBinding> extends Fragment {
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.DaggerFragment;
 
+
+public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBinding> extends DaggerFragment {
+
+    @Inject
+    protected ViewModelProvider.Factory viewModelFactory;
 
     protected V viewModel;
 
@@ -34,7 +41,8 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
 
     protected abstract Class<V> getViewModel();
 
-    protected abstract ViewModelProvider.Factory getViewModelFactory();
+    // use it when your project doesn't use Dagger2
+    //protected abstract ViewModelProvider.Factory getViewModelFactory();
 
     @LayoutRes
     protected abstract int getLayoutRes();
@@ -48,7 +56,7 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, getViewModelFactory()).get(getViewModel());
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(getViewModel());
     }
 
     @Nullable

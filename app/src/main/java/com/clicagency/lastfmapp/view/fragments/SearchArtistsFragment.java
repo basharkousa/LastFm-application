@@ -13,6 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.clicagency.lastfmapp.R;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
 import com.clicagency.lastfmapp.databinding.FragmentArtistsSerarchBinding;
+import com.clicagency.lastfmapp.tools.ObjectMessage;
 import com.clicagency.lastfmapp.view.listeners.IOnClick;
 import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.tools.SpacesItemDecoration;
@@ -28,7 +29,6 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
 
     private ArrayList<Artist> artists = new ArrayList<>();
     private ArtistAdapter adapter = new ArtistAdapter(parent);
-    ;
 
     public static SearchArtistsFragment newInstance() {
         Bundle args = new Bundle();
@@ -43,10 +43,6 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
         return ArtistViewModel.class;
     }
 
-    @Override
-    protected ViewModelProvider.Factory getViewModelFactory() {
-        return null;
-    }
 
     @Override
     protected int getLayoutRes() {
@@ -94,7 +90,9 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
 
                 Artist artist = adapter.getItem(position);
                 AlbumsArtistFragment albumsArtistFragment = new AlbumsArtistFragment();
-                albumsArtistFragment.setArtist(artist);
+                if (artist != null)
+                    if (artist.getName() != null)
+                        albumsArtistFragment.setArtist(artist.getName());
                 parent.show_fragment2(albumsArtistFragment, false);
 
 

@@ -16,6 +16,8 @@ import com.clicagency.lastfmapp.data.remote.repositories.ArtistRepository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ArtistViewModel extends ViewModel{
 
     private MutableLiveData<List<Artist>> mutableLiveDataArtists;
@@ -24,8 +26,13 @@ public class ArtistViewModel extends ViewModel{
 
     private ArtistRepository artistRepository;
 
+    @Inject
+    public ArtistViewModel(ArtistRepository artistRepository) {
+       this.artistRepository = artistRepository;
+    }
+
     public void init() {
-        artistRepository = ArtistRepository.getInstance();
+
     }
 
     public LiveData<List<Artist>> getArtistRepository() {

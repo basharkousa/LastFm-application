@@ -44,28 +44,6 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     }
 
     @Override
-    protected ViewModelProvider.Factory getViewModelFactory() {
-
-        if (album != null) {
-            albumName = album.getName();
-            if (album.getArtist() != null)
-                artistName = album.getArtist().getName();
-            else
-                artistName = album.getArtist_name();
-
-        }
-
-
-        return new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new AlbumDetailsViewModel(parent.getApplication(), albumName, artistName);
-            }
-        };
-    }
-
-    @Override
     protected int getLayoutRes() {
         return R.layout.fragment_album_details;
     }
@@ -98,6 +76,13 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     @Override
     public void init_fragment(Bundle savedInstanceState) {
 
+        if (album != null) {
+            albumName = album.getName();
+            if (album.getArtist() != null)
+                artistName = album.getArtist().getName();
+            else
+                artistName = album.getArtist_name();
+        }
         getAlbumsDetails();
         observeAlbumDetails();
         observeErrorMessage();
@@ -115,7 +100,7 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
         dataBinding.layoutContent.setVisibility(View.GONE);
         disableBookMarkBtns();
         if (BasicTools.isConnected(parent)) {
-            viewModel.getAlbumDetails();
+            viewModel.getAlbumDetails(albumName,artistName);
         } else {
             parent.showTostMessage(R.string.failed_to_connect);
             disableBookMarkBtns();

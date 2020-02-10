@@ -9,19 +9,24 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface LastFmApi {
 
+    //@Query("page") int page
+    //@QueryMap Map<String, String> params
+
     @GET("?method=library.getartists")
-    Call<ArtistsResponse> getArtists(@QueryMap Map<String, String> params);
+    Call<ArtistsResponse> getArtists(@Query("user") String artist);
 
     @GET("?method=artist.search")
-    Call<ArtistsSearchResponce> getSearchArtists(@QueryMap Map<String, String> params);
+    Call<ArtistsSearchResponce> getSearchArtists(@Query("artist") String artist);
 
     @GET("?method=artist.gettopalbums")
-    Call<AlbumsArtistRespnce> getAlbumsArti(@QueryMap Map<String, String> params);
+    Call<AlbumsArtistRespnce> getAlbumsArti(@Query("artist") String artist,
+                                            @Query("page") String page,@Query("limit") String limit);
 
     @GET("?method=album.getinfo")
-    Call<AlbumDetailsRespnse> getAlbumDetails(@QueryMap Map<String, String> params);
+    Call<AlbumDetailsRespnse> getAlbumDetails(@Query("artist") String artist,@Query("album") String album);
 }
