@@ -11,15 +11,17 @@ import androidx.paging.PagedList;
 import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.data.remote.repositories.AlbumRepository;
 
-public class MainPageViewModel extends AndroidViewModel{
+import javax.inject.Inject;
+
+public class MainPageViewModel extends ViewModel{
 
     private AlbumRepository mRepository;
     private LiveData<PagedList<Album>> mAlbumsBypage;
 
-    public MainPageViewModel(@NonNull Application application) {
-        super(application);
+    @Inject
+    public MainPageViewModel(AlbumRepository albumRepository) {
 
-        mRepository = AlbumRepository.getInstance(application);
+        mRepository = albumRepository;
         mAlbumsBypage = mRepository.getAllAlbumsPerPage();
     }
 

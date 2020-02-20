@@ -4,29 +4,33 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
 
-import com.clicagency.lastfmapp.data.remote.ApiClient;
 import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.data.remote.models.NetworkState;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumsArtist.AlbumsArtistRespnce;
-import com.clicagency.lastfmapp.tools.Constants;
 
-import java.util.HashMap;
-import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Singleton
 public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
 
     public static int TOTAL_PAGES = 0;
     public static final int PAGE_SIZE = 10;
     private static final int FIRST_PAGE = 1;
+
     private String ARTIST_NAME = "cher";
 
-    private final LastFmApi lastFmAPI = ApiClient.getClient();
-    private Map<String, String> options;
+    @Inject
+    LastFmApi lastFmAPI;
+
+//    @Inject
+//    @ArtistName String ARTIST_NAME;
 
     private MutableLiveData networkState;
     private MutableLiveData initialLoading;
@@ -34,10 +38,15 @@ public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
     private LoadCallback<Integer, Album> callback;
     private LoadParams<Integer> params;
 
-    public AlbumDataSource(String artist) {
-        this.ARTIST_NAME = artist;
+    @Inject
+    public AlbumDataSource() {
+        //this.ARTIST_NAME = artist;
         networkState = new MutableLiveData();
         initialLoading = new MutableLiveData();
+    }
+
+    public void setArtistName(String artistName) {
+        this.ARTIST_NAME = artistName;
     }
 
     @Override
@@ -46,16 +55,8 @@ public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
         initialLoading.postValue(NetworkState.LOADING);
         networkState.postValue(NetworkState.LOADING);
 
-
-        if (options == null)
-            options = new HashMap<>();
-        options.put("api_key", Constants.API_KEY);
-        options.put("format", "json");
-        options.put("limit",  PAGE_SIZE+ "");
-        options.put("page", FIRST_PAGE + "");
-        options.put("artist",  ARTIST_NAME+ "");
-
-        Call<AlbumsArtistRespnce> callBackApi = lastFmAPI.getAlbumsArti(options);
+        Call<AlbumsArtistRespnce> callBackApi = lastFmAPI.getAlbumsArti(ARTIST_NAME + "", FIRST_PAGE + "",
+                PAGE_SIZE + "");
         callBackApi.enqueue(new Callback<AlbumsArtistRespnce>() {
 
             @Override
@@ -64,7 +65,7 @@ public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
 
-                        TOTAL_PAGES =Integer.parseInt(response.body().getTopalbums().getAttr().getTotal());
+                        TOTAL_PAGES = Integer.parseInt(response.body().getTopalbums().getAttr().getTotal());
                         callback.onResult(response.body().getTopalbums().getAlbum(), null, FIRST_PAGE + 1);
 
                         initialLoading.postValue(NetworkState.LOADED);
@@ -123,14 +124,12 @@ public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
 
         networkState.postValue(NetworkState.LOADING);
 
-        options = new HashMap<>();
-        options.put("api_key", Constants.API_KEY);
-        options.put("format", "json");
-        options.put("limit",  PAGE_SIZE+ "");
-        options.put("page", params.key + "");
-        options.put("artist",  ARTIST_NAME+ "");
+//        options.put("limit", PAGE_SIZE + "");
+//        options.put("page", params.key + "");
+//        options.put("artist", ARTIST_NAME + "");
 
-        Call<AlbumsArtistRespnce> callBackApi = lastFmAPI.getAlbumsArti(options);
+        Call<AlbumsArtistRespnce> callBackApi = lastFmAPI.getAlbumsArti(ARTIST_NAME + "", params.key + "",
+                PAGE_SIZE + "");
         callBackApi.enqueue(new Callback<AlbumsArtistRespnce>() {
 
             @Override
@@ -142,17 +141,14 @@ public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
                         //if the response has next page
                         //incrementing the next page number
 
-                        if(TOTAL_PAGES > 0 ){
-                            Integer key =  params.key + 1 ;
+                        if (TOTAL_PAGES > 0) {
+                            Integer key = params.key + 1;
                             TOTAL_PAGES--;
                             //passing the loaded data and next page value
                             callback.onResult(response.body().getTopalbums().getAlbum(), key);
 
                             networkState.postValue(NetworkState.LOADED);
                         }
-
-
-
                     }
                 } else {
 
@@ -176,11 +172,13 @@ public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
         return initialLoading;
     }
 
-    public void retryPagination(){
+    public void retryPagination() {
         loadAfter(params, callback);
     }
 
     public void clear() {
         //todo
     }
+
+
 }

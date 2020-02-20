@@ -3,58 +3,35 @@ package com.clicagency.lastfmapp.data.remote.repositories;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.clicagency.lastfmapp.data.remote.ApiClient;
 import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.ArtistsResponse;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsSearchResponse.ArtistsSearchResponce;
-import com.clicagency.lastfmapp.tools.Constants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Singleton
 public class ArtistRepository {
-
-    private static ArtistRepository artistRepository;
 
     private final LastFmApi lastFmAPI;
 
-    private Map<String, String> options;
-
-    private ArtistRepository() {
-        this.lastFmAPI = ApiClient.getClient();
-        options = new HashMap<>();
-    }
-
-    public static ArtistRepository getInstance() {
-
-        if (artistRepository == null) {
-            synchronized (ArtistRepository.class) {
-                if (artistRepository == null) {
-                    artistRepository = new ArtistRepository();
-                }
-            }
-        }
-        return artistRepository;
+    @Inject
+    public ArtistRepository(LastFmApi lastFmApi) {
+        this.lastFmAPI = lastFmApi;
     }
 
     public MutableLiveData<List<Artist>> getArtistsRequest() {
 
         final MutableLiveData<List<Artist>> data = new MutableLiveData<>();
-        if (options == null)
-            options = new HashMap<>();
-        options.put("api_key", Constants.API_KEY);
-        options.put("format", "json");
-        options.put("user", "joanofarctan");
 
-
-        Call<ArtistsResponse> callBack = lastFmAPI.getArtists(options);
+        Call<ArtistsResponse> callBack = lastFmAPI.getArtists("joanofarctan");
         callBack.enqueue(new Callback<ArtistsResponse>() {
 
             @Override
@@ -78,12 +55,8 @@ public class ArtistRepository {
     public MutableLiveData<List<Artist>> getArtistsSearchRequest(String query) {
 
         final MutableLiveData<List<Artist>> data = new MutableLiveData<>();
-        options = new HashMap<>();
-        options.put("api_key", Constants.API_KEY);
-        options.put("format", "json");
-        options.put("artist", query);
 
-        final Call<ArtistsSearchResponce> callBack = lastFmAPI.getSearchArtists(options);
+        final Call<ArtistsSearchResponce> callBack = lastFmAPI.getSearchArtists(query);
         callBack.enqueue(new Callback<ArtistsSearchResponce>() {
 
             @Override

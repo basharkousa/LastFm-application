@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -23,10 +22,13 @@ import androidx.transition.Fade;
 import androidx.transition.TransitionInflater;
 
 import com.clicagency.lastfmapp.R;
+import com.clicagency.lastfmapp.tools.DataMessage;
+import com.clicagency.lastfmapp.tools.ObjectMessage;
+
+import dagger.android.support.DaggerAppCompatActivity;
 
 
-public abstract class BaseActivity<D extends ViewDataBinding> extends AppCompatActivity {
-
+public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppCompatActivity {
 
     @SuppressWarnings("unused")
     public D dataBinding;
@@ -45,7 +47,6 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends AppCompatA
         init_events();
         init_activity();
     }
-
 
     public abstract void init_activity();
 
@@ -281,5 +282,13 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends AppCompatA
         return ContextCompat.getColor(this, color);
     }
 
+
+    public void send_data(DataMessage message) {
+        message.get_receiver().onReceive(message.get_extra());
+    }
+
+    public void send_data(ObjectMessage message) {
+        message.get_receiver().onReceive(message.get_object());
+    }
 }
 
