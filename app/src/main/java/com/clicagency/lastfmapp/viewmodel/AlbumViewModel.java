@@ -18,25 +18,33 @@ import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.Al
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+
 public class AlbumViewModel extends ViewModel {
 
     //creating livedata for PagedList and PagedKeyedDataSource
 
-   // LiveData<PageKeyedDataSource<Integer, Album>> liveDataSource;
+    // LiveData<PageKeyedDataSource<Integer, Album>> liveDataSource;
 
     private Executor executor;
     private LiveData<PagedList<Album>> albumPagedList;
     private LiveData<NetworkState> networkState;
 
-    private AlbumDataSourceFactory albumDataSourceFactory;
+    @Inject
+    AlbumDataSourceFactory albumDataSourceFactory;
 
+    @Inject
+    public AlbumViewModel() {
 
+    }
 
-    public AlbumViewModel(@NonNull Application application,String artistName) {
-
+    public void getAlbums(String artistName) {
         executor = Executors.newFixedThreadPool(5);
         //getting our data source factory
-        albumDataSourceFactory = new AlbumDataSourceFactory(artistName);
+        //after dagger2
+        //albumDataSourceFactory = new AlbumDataSourceFactory(artistName);
+        albumDataSourceFactory.setArtistName(artistName);
+
         networkState = Transformations.switchMap(albumDataSourceFactory.getItemLiveDataSource(),
                 dataSource -> dataSource.getNetworkState());
 
@@ -46,7 +54,6 @@ public class AlbumViewModel extends ViewModel {
                         .setEnablePlaceholders(false)
                         //.setInitialLoadSizeHint(10)
                         .setPageSize(AlbumDataSource.PAGE_SIZE).build();
-
         //Building the paged list
         albumPagedList = (new LivePagedListBuilder(albumDataSourceFactory, pagedListConfig))
                 .setFetchExecutor(executor)
@@ -68,7 +75,8 @@ public class AlbumViewModel extends ViewModel {
 //        albumDataSourceFactory.getAlbumDataSource().clear();
 //    }
 
-    public void retry(){
+    public void retry() {
         albumDataSourceFactory.getAlbumDataSource().retryPagination();
     }
+
 }

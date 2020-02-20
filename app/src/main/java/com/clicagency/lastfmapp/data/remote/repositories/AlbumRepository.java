@@ -4,14 +4,11 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import com.clicagency.lastfmapp.data.local.AlbumDatabase;
 import com.clicagency.lastfmapp.data.local.dao.AlbumDao;
 import com.clicagency.lastfmapp.data.local.entity.Album;
-import com.clicagency.lastfmapp.data.remote.ApiClient;
 import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.AlbumDetailsRespnse;
 import com.clicagency.lastfmapp.tools.AppExecutors;
@@ -22,56 +19,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Singleton
 public class AlbumRepository {
-
-    private static AlbumRepository albumRepository;
 
     //for api
     private final LastFmApi lastFmAPI;
-    private Map<String, String> options;
-
     //for dataBase
     private final AlbumDao mAlbumDao;
     private LiveData<List<Album>> mAlbums;
 
-    private AlbumRepository(Application application) {
+    @Inject
+    public AlbumRepository(AlbumDao albumDao,LastFmApi lastFmAPI) {
         //for api
-        this.lastFmAPI = ApiClient.getClient();
-        options = new HashMap<>();
-
+        this.lastFmAPI = lastFmAPI;
         //for database
-        AlbumDatabase db = AlbumDatabase.getInstance(application);
-        mAlbumDao = db.albumDao();
-        mAlbums = mAlbumDao.getAllAlbums();
-
+        this.mAlbumDao = albumDao;
+        this.mAlbums = albumDao.getAllAlbums();
     }
 
-    public static AlbumRepository getInstance(Application application) {
-
-        if (albumRepository == null) {
-            synchronized (ArtistRepository.class) {
-                if (albumRepository == null) {
-                    albumRepository = new AlbumRepository(application);
-                }
-            }
-        }
-        return albumRepository;
-    }
 
     public void getAlbumDetailsRequest(String albumName, String artistName, final IResponseListener<AlbumDetailsRespnse> listener) {
 
-        if (options == null)
-            options = new HashMap<>();
-        options.put("api_key", Constants.API_KEY);
-        options.put("format", "json");
-        options.put("artist", artistName);
-        options.put("album", albumName);
-
-        Call<AlbumDetailsRespnse> callBack = lastFmAPI.getAlbumDetails(options);
+        Call<AlbumDetailsRespnse> callBack = lastFmAPI.getAlbumDetails(artistName,albumName);
         callBack.enqueue(new Callback<AlbumDetailsRespnse>() {
 
             @Override

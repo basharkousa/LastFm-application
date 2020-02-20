@@ -23,36 +23,20 @@ import com.clicagency.lastfmapp.view.adapters.AlbumNetStateAdapter;
 import com.clicagency.lastfmapp.view.adapters.AlbumPagedAdapter;
 import com.clicagency.lastfmapp.view.base.BaseFragment;
 import com.clicagency.lastfmapp.view.listeners.IOnAlbumClick;
+import com.clicagency.lastfmapp.view.listeners.IReceivable;
 import com.clicagency.lastfmapp.viewmodel.AlbumViewModel;
 
 public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentAlbumsArtistBinding> {
 
 
-    private Artist artist;
+    private String artist = "";
     private AlbumNetStateAdapter adapter;
     private GridLayoutManager layout_manager;
 
-    public static AlbumsArtistFragment newInstance() {
-        Bundle args = new Bundle();
-        AlbumsArtistFragment fragment = new AlbumsArtistFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     protected Class<AlbumViewModel> getViewModel() {
         return AlbumViewModel.class;
-    }
-
-    @Override
-    protected ViewModelProvider.Factory getViewModelFactory() {
-        return new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new AlbumViewModel(parent.getApplication(), artist.getName());
-            }
-        };
     }
 
     @Override
@@ -113,18 +97,20 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
     @Override
     public void init_fragment(Bundle savedInstanceState) {
 
-        if (artist != null) if (artist.getName() != null)
-            dataBinding.tvArtistName.setText(artist.getName() + "'s");
+        if (artist != null) if (artist != null)
+            dataBinding.tvArtistName.setText(artist + "'s");
 
         initRecycler();
         loadAlbums();
         viewModel.getNetworkState().observe(this, networkState -> adapter.setNetworkState(networkState));
+
     }
 
     private void loadAlbums() {
         dataBinding.retryBtn.setVisibility(View.GONE);
         dataBinding.rootLayout.setRefreshing(true);
         if (BasicTools.isConnected(parent)) {
+            viewModel.getAlbums(artist);
             viewModel.getAlbumPagedList().observe(this, new Observer<PagedList<Album>>() {
                 @Override
                 public void onChanged(@Nullable PagedList<Album> items) {
@@ -157,12 +143,33 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
 
     }
 
+//    @ArtistName
+//    public String getArtistName() {
+////        if(artist != null){
+////            if (artist != null)
+////                return artist;
+////        }
+//            return "ArtistName";
+//    }
+
+
     @Override
     public boolean on_back_pressed() {
         return true;
     }
 
-    public void setArtist(Artist artistnew) {
+    public void setArtist(String artistnew) {
         artist = artistnew;
     }
+
+//    @Override
+//    protected ViewModelProvider.Factory getViewModelFactory() {
+//        return new ViewModelProvider.Factory() {
+//            @NonNull
+//            @Override
+//            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+//                return (T) new AlbumViewModel(parent.getApplication(), artist.getName());
+//            }
+//        };
+//    }
 }

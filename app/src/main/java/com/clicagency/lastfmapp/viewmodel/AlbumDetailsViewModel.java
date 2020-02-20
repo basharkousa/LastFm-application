@@ -16,21 +16,21 @@ import com.clicagency.lastfmapp.view.listeners.IResponseListener;
 
 import java.util.List;
 
-public class AlbumDetailsViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class AlbumDetailsViewModel extends ViewModel {
 
     private MutableLiveData<AlbumDetailsRespnse> mutableLiveDataAlbum = new MutableLiveData<>();
     private SingleLiveEvent<String> errorMessageRecieved = new SingleLiveEvent<>();
     private AlbumRepository albumRepository ;
-    private String albumName;
-    private String artistName;
+
 
     private LiveData<List<Album>> mAllAlbums;
 
-    public AlbumDetailsViewModel(@NonNull Application application,String albumName,String artistName) {
-        super(application);
-        albumRepository = AlbumRepository.getInstance(application);
-        this.albumName = albumName;
-        this.artistName = artistName;
+    @Inject
+    public AlbumDetailsViewModel(AlbumRepository albumRepository) {
+
+        this.albumRepository = albumRepository;
 
         this.mAllAlbums = albumRepository.getAllAlbums();
 
@@ -40,7 +40,7 @@ public class AlbumDetailsViewModel extends AndroidViewModel {
 //        return mutableLiveDataAlbum = albumRepository.getAlbumDetailsRequest(albumName,artistName);
 //    }
 
-    public void getAlbumDetails(){
+    public void getAlbumDetails(String albumName,String artistName){
 
         if(albumRepository != null){
            albumRepository.getAlbumDetailsRequest(albumName, artistName, new IResponseListener<AlbumDetailsRespnse>() {

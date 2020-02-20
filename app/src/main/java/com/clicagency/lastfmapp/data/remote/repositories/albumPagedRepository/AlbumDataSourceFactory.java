@@ -7,22 +7,30 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.clicagency.lastfmapp.data.local.entity.Album;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class AlbumDataSourceFactory extends DataSource.Factory {
 
     private MutableLiveData<AlbumDataSource> albumLiveDataSource = new MutableLiveData<>();
 
-    private AlbumDataSource albumDataSource;
+    @Inject
+    AlbumDataSource albumDataSource;
 
     private String artistName;
-    public AlbumDataSourceFactory(String artistName){
-       this.artistName = artistName ;
+
+    @Inject
+    public AlbumDataSourceFactory(){
+       //this.artistName = artistName ;
 
         this.albumLiveDataSource = new MutableLiveData<AlbumDataSource>();
     }
 
     @Override
     public DataSource create() {
-        albumDataSource = new AlbumDataSource(artistName);
+//        albumDataSource = new AlbumDataSource(artistName);
+        albumDataSource.setArtistName(artistName);
         albumLiveDataSource.postValue(albumDataSource);
 
         return albumDataSource;
@@ -33,5 +41,9 @@ public class AlbumDataSourceFactory extends DataSource.Factory {
     }
     public AlbumDataSource getAlbumDataSource() {
         return albumDataSource;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 }

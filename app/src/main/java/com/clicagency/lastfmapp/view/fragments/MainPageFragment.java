@@ -41,17 +41,6 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
     }
 
     @Override
-    protected ViewModelProvider.Factory getViewModelFactory() {
-        return new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new MainPageViewModel(parent.getApplication());
-            }
-        };
-    }
-
-    @Override
     protected int getLayoutRes() {
         return R.layout.fragment_main_page;
     }
