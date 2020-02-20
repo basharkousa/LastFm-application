@@ -163,11 +163,5 @@ public class Artist implements Serializable
         this.imageMainUrl = imageMainUrl;
     }
 
-    @BindingAdapter("imgUrlz")
-    public static void loadImage(View view , String imgUrl){
 
-        ImageView imageView = (ImageView)view;
-        Glide.with(imageView.getContext()).asBitmap().load(imgUrl).dontAnimate().into(imageView);
-
-    }
 }

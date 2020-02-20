@@ -105,12 +105,4 @@ public class Track {
         this.artist = artist;
     }
 
-    @BindingAdapter("duration_value")
-    public static void formatSecondd(View view , String duration){
-        TextView textView = (TextView) view;
-        int durationInt =Integer.parseInt( duration);
-        textView.setText(BasicTools.formatSeconds(durationInt));
-
-    }
-
 }

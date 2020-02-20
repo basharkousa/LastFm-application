@@ -28,7 +28,7 @@
                 android:layout_height="@dimen/d15"
                 android:scaleType="centerCrop"
                 android:background="@drawable/default_album_art"
-                app:imgUrlz="@{album_model.imageUrl}"
+                app:imgUrl="@{album_model.imageUrl}"
                 />
             <TextView
                 android:id="@+id/tv_album_name"

@@ -120,14 +120,6 @@ public class Album {
         return image.get(2).getText();
     }
 
-    @BindingAdapter("imgUrl")
-    public static void loadImage(View view , String imgUrl){
-
-        ImageView imageView = (ImageView)view;
-        Glide.with(imageView.getContext()).asBitmap().load(imgUrl).dontAnimate().into(imageView);
-
-    }
-
     public void setImage(List<Image> image) {
         this.image = image;
     }
