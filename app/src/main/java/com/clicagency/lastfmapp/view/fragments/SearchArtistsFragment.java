@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.clicagency.lastfmapp.R;
+import com.clicagency.lastfmapp.data.remote.models.State;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
+import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.ArtistsResponse;
 import com.clicagency.lastfmapp.databinding.FragmentArtistsSerarchBinding;
 import com.clicagency.lastfmapp.tools.ObjectMessage;
+import com.clicagency.lastfmapp.view.adapters.MyArtistAdapter;
 import com.clicagency.lastfmapp.view.listeners.IOnClick;
 import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.tools.SpacesItemDecoration;
@@ -28,7 +31,7 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
 
 
     private ArrayList<Artist> artists = new ArrayList<>();
-    private ArtistAdapter adapter = new ArtistAdapter(parent);
+    public MyArtistAdapter adapter;
 
     public static SearchArtistsFragment newInstance() {
         Bundle args = new Bundle();
@@ -56,7 +59,8 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
             @Override
             public void onRefresh() {
                 //load(false);
-                loadArtists();
+                viewModel.getArtists();
+//                loadArtists();
             }
         });
 
@@ -84,29 +88,30 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
             }
         });
 
-        adapter.setClickListener(new IOnClick() {
-            @Override
-            public void itemClicked(View v, int position) {
-
-                Artist artist = adapter.getItem(position);
-                AlbumsArtistFragment albumsArtistFragment = new AlbumsArtistFragment();
-                if (artist != null)
-                    if (artist.getName() != null)
-                        albumsArtistFragment.setArtist(artist.getName());
-                parent.show_fragment2(albumsArtistFragment, false);
-
-
-            }
-        });
+//        adapter.setClickListener(new IOnClick() {
+//            @Override
+//            public void itemClicked(View v, int position) {
+//
+//                Artist artist = adapter.getItem(position);
+//                AlbumsArtistFragment albumsArtistFragment = new AlbumsArtistFragment();
+//                if (artist != null)
+//                    if (artist.getName() != null)
+//                        albumsArtistFragment.setArtist(artist.getName());
+//                parent.show_fragment2(albumsArtistFragment, false);
+//
+//
+//            }
+//        });
 
     }
 
     @Override
     public void init_fragment(Bundle savedInstanceState) {
         initRecycler();
-        viewModel.init();
-        if (artists.size() == 0)
-            loadArtists();
+        observeArtists();
+//        viewModel.init();
+//        if (artists.size() == 0)
+//            loadArtists();
 
     }
 
@@ -118,15 +123,16 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
             layout_manager = new GridLayoutManager(parent.getApplicationContext(), 3);
 
         dataBinding.recycler.setLayoutManager(layout_manager);
-        //init_listener();
-        if (adapter == null) {
-            adapter = new ArtistAdapter(parent);
-            adapter.setArtistsList(artists);
-            // Open subject when click on it
-
-        }
-        dataBinding.recycler.setAdapter(adapter);
         dataBinding.recycler.addItemDecoration(new SpacesItemDecoration((int) parent.getResources().getDimension(R.dimen.d0_4)));
+
+        //init_listener();
+//        if (adapter == null) {
+//            dataBinding.recycler.setAdapter(adapter);
+//            dataBinding.recycler.addItemDecoration(new SpacesItemDecoration((int) parent.getResources().getDimension(R.dimen.d0_4)));
+//            // Open subject when click on it
+//
+//        }
+
 
     }
 
@@ -144,7 +150,7 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
                     if (artistsResponse.size() == 0)
                         dataBinding.emptyTv.setVisibility(View.VISIBLE);
                     artists.addAll(artistsResponse);
-                    adapter.setArtistsList(artistsResponse);
+//                    adapter.setArtistsList(artistsResponse);
 
                 }
             });
@@ -158,33 +164,81 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
 
     }
 
-    private void loadArtists(String query) {
-        artists.clear();
+    private void observeArtists() {
+        viewModel.getMutableLiveDataArtistsResponse().observe(this, new Observer<State<ArtistsResponse>>() {
+            @Override
+            public void onChanged(State<ArtistsResponse> artistsResponseState) {
+                switch (artistsResponseState.getStatus()) {
+                    case LOADING:
+                        buildLoadingSection();
+                        break;
+                    case SUCCESS:
+                        buildContent(artistsResponseState.getData());
+                        break;
+                    case FAILED:
+                        buildFailed();
+//                    default:
+//                        buildContent(artistsResponseState.getData());
+                }
+            }
+        });
+    }
+    private void buildContent(ArtistsResponse data) {
+        dataBinding.rootLayout.setRefreshing(false);
+        if (data.getArtists().getArtist().size() == 0)
+            dataBinding.emptyTv.setVisibility(View.VISIBLE);
+//        artists.addAll(data.getArtists().getArtist());
+        adapter = new MyArtistAdapter(data.getArtists().getArtist(),(artist) -> {
+            AlbumsArtistFragment albumsArtistFragment = new AlbumsArtistFragment();
+            if (artist != null)
+                if (artist.getName() != null)
+                    albumsArtistFragment.setArtist(artist.getName());
+            parent.show_fragment2(albumsArtistFragment, false);
+        });
+        dataBinding.recycler.setAdapter(adapter);
+//        adapter.setArtistsList(data.getArtists().getArtist());
+        dataBinding.progressMain.setVisibility(View.GONE);
+    }
+    private void buildFailed() {
+        dataBinding.progressMain.setVisibility(View.GONE);
+        parent.showTostMessage(R.string.failed_to_connect);
+        dataBinding.rootLayout.setRefreshing(false);
+
+    }
+    private void buildLoadingSection() {
         dataBinding.rootLayout.setRefreshing(true);
         dataBinding.retryBtn.setVisibility(View.GONE);
         dataBinding.emptyTv.setVisibility(View.GONE);
-        if (BasicTools.isConnected(parent)) {
+        dataBinding.progressMain.setVisibility(View.VISIBLE);
+    }
 
-            viewModel.getArtistRepository(query).observe(this, new Observer<List<Artist>>() {
-                @Override
-                public void onChanged(List<Artist> artistsResponse) {
-                    if (artistsResponse == null)
-                        parent.showTostMessage("Error");
-                    dataBinding.rootLayout.setRefreshing(false);
-                    if (artistsResponse.size() == 0)
-                        dataBinding.emptyTv.setVisibility(View.VISIBLE);
-                    artists.addAll(artistsResponse);
-                    adapter.setArtistsList(artistsResponse);
-                    adapter.notifyDataSetChanged();
-                }
-            });
-
-        } else {
-
-            parent.showTostMessage(R.string.failed_to_connect);
-            dataBinding.rootLayout.setRefreshing(false);
-
-        }
+    private void loadArtists(String query) {
+//          viewModel.getArtists(query);
+//        artists.clear();
+//        dataBinding.rootLayout.setRefreshing(true);
+//        dataBinding.retryBtn.setVisibility(View.GONE);
+//        dataBinding.emptyTv.setVisibility(View.GONE);
+//        if (BasicTools.isConnected(parent)) {
+//
+//            viewModel.getArtistRepository(query).observe(this, new Observer<List<Artist>>() {
+//                @Override
+//                public void onChanged(List<Artist> artistsResponse) {
+//                    if (artistsResponse == null)
+//                        parent.showTostMessage("Error");
+//                    dataBinding.rootLayout.setRefreshing(false);
+//                    if (artistsResponse.size() == 0)
+//                        dataBinding.emptyTv.setVisibility(View.VISIBLE);
+//                    artists.addAll(artistsResponse);
+//                    adapter.setArtistsList(artistsResponse);
+//                    adapter.notifyDataSetChanged();
+//                }
+//            });
+//
+//        } else {
+//
+//            parent.showTostMessage(R.string.failed_to_connect);
+//            dataBinding.rootLayout.setRefreshing(false);
+//        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 
 package com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -166,5 +167,9 @@ public class Artist implements Serializable
         this.imageMainUrl = imageMainUrl;
     }
 
+    public void onClick(){
+        Log.e("'AdapterClick'","artist.getName()");
+//        mOnItemClickListener.itemClicked(artist);
+    }
 
 }

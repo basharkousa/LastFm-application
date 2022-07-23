@@ -112,14 +112,11 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     }
 
     private void observeAlbumDetails() {
-        viewModel.getMutableLiveDataAlbum().observe(this, new Observer<AlbumDetailsRespnse>() {
-            @Override
-            public void onChanged(AlbumDetailsRespnse albumDetailsRespnse) {
-                dataBinding.setAlbumDetails(albumDetailsRespnse.getAlbum());
-                //showTags(albumDetailsRespnse);
-                fillAllAlbumsItems(albumDetailsRespnse);
+        viewModel.getMutableLiveDataAlbum().observe(this, albumDetailsRespnse -> {
+            dataBinding.setAlbumDetails(albumDetailsRespnse.getAlbum());
+            //showTags(albumDetailsRespnse);
+            fillAllAlbumsItems(albumDetailsRespnse);
 
-            }
         });
     }
 

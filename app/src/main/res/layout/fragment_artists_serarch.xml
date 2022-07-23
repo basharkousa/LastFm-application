@@ -115,13 +115,22 @@
                         android:id="@+id/retry_btn"
                         android:layout_gravity="center"
                         android:src="@drawable/retry"/>
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/d0_4"
+                        android:layout_marginTop="@dimen/d0_4"
+                        android:visibility="visible"
+                        android:id="@+id/progress_main"
+                        style="@android:style/Widget.DeviceDefault.ProgressBar.Small"
+                        android:layout_height="wrap_content" />
                 </FrameLayout>
                 <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/d0_4"
                     android:layout_marginTop="@dimen/d0_4"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/more_prgrs"
                     style="@android:style/Widget.DeviceDefault.ProgressBar.Small"
                     android:layout_height="wrap_content" />

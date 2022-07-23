@@ -7,6 +7,7 @@ import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.ArtistsResponse;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsSearchResponse.ArtistsSearchResponce;
+import com.clicagency.lastfmapp.view.listeners.IResponseListener;
 
 import java.util.List;
 
@@ -46,6 +47,33 @@ public class ArtistRepository {
 
             @Override
             public void onFailure(Call<ArtistsResponse> call, Throwable t) {
+
+            }
+        });
+        return data;
+    }
+
+    public ArtistsResponse getArtistsRequest2(IResponseListener<ArtistsResponse> listener) {
+
+        final ArtistsResponse data = new ArtistsResponse();
+
+        Call<ArtistsResponse> callBack = lastFmAPI.getArtists("joanofarctan");
+        callBack.enqueue(new Callback<ArtistsResponse>() {
+
+            @Override
+            public void onResponse(@NonNull Call<ArtistsResponse> call, @NonNull Response<ArtistsResponse> response) {
+
+                if (response.isSuccessful()) {
+//                    data.setValue(response.body().getArtists().getArtist());
+                    listener.onSuccess(response.body());
+                } else {
+                    listener.onFailure(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArtistsResponse> call, Throwable t) {
+                listener.onFailure(call.toString());
 
             }
         });

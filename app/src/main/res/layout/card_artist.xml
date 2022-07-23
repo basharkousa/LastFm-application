@@ -3,16 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     
     <data>
-        <variable
-            name="artist_model"
-            type="com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist" />
+        <variable name="obj" type="com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist"/>
+        <variable name="adapter" type="com.clicagency.lastfmapp.view.adapters.MyArtistAdapter"/>
+
+<!--        <variable-->
+<!--            name="artist_model"-->
+<!--            type="com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist" />-->
     </data>
-    
+
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/card_artist"
         android:theme="@style/LastFmCard"
+        android:onClick="@{()-> adapter.onClick(obj)}"
         android:foreground="?android:attr/selectableItemBackground"
         >
 
@@ -27,13 +32,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d15"
                 android:scaleType="centerCrop"
-                app:imgUrl="@{artist_model.imageUrl}"
+                app:imgUrl="@{obj.imageUrl}"
                 />
             <TextView
                 android:id="@+id/tv_artist_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{artist_model.name}"
+                android:text="@{obj.name}"
                 android:layout_marginTop="@dimen/d0_8"
                 android:layout_marginStart="@dimen/d0_8"
                 android:textStyle="bold"

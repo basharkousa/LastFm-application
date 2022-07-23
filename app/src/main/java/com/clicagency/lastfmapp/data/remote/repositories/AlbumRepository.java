@@ -36,7 +36,7 @@ public class AlbumRepository {
     private LiveData<List<Album>> mAlbums;
 
     @Inject
-    public AlbumRepository(AlbumDao albumDao,LastFmApi lastFmAPI) {
+    public AlbumRepository(AlbumDao albumDao, LastFmApi lastFmAPI) {
         //for api
         this.lastFmAPI = lastFmAPI;
         //for database
@@ -45,13 +45,15 @@ public class AlbumRepository {
     }
 
 
-    public void getAlbumDetailsRequest(String albumName, String artistName, final IResponseListener<AlbumDetailsRespnse> listener) {
+    public void getAlbumDetailsRequest(String albumName, String artistName,
+                                       final IResponseListener<AlbumDetailsRespnse> listener) {
 
-        Call<AlbumDetailsRespnse> callBack = lastFmAPI.getAlbumDetails(artistName,albumName);
+        Call<AlbumDetailsRespnse> callBack = lastFmAPI.getAlbumDetails(artistName, albumName);
         callBack.enqueue(new Callback<AlbumDetailsRespnse>() {
 
             @Override
-            public void onResponse(@NonNull Call<AlbumDetailsRespnse> call, @NonNull Response<AlbumDetailsRespnse> response) {
+            public void onResponse(@NonNull Call<AlbumDetailsRespnse> call,
+                                   @NonNull Response<AlbumDetailsRespnse> response) {
 
                 if (response.isSuccessful()) {
 

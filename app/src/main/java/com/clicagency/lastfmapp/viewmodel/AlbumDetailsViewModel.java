@@ -36,6 +36,8 @@ public class AlbumDetailsViewModel extends ViewModel {
 
     }
 
+
+
 //    public MutableLiveData<AlbumDetailsRespnse> getAlbumDetails() {
 //        return mutableLiveDataAlbum = albumRepository.getAlbumDetailsRequest(albumName,artistName);
 //    }

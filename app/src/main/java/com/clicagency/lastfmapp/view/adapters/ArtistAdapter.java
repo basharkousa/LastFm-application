@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.clicagency.lastfmapp.R;
@@ -45,8 +47,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
     public void onBindViewHolder(@NonNull ArtistAdapter.ArtistViewHolder holder,final int position) {
         if (mArtistsList != null) {
             Artist currentSubjectEntity = mArtistsList.get(position);
-            holder.cardArtistBinding.setArtistModel(currentSubjectEntity);
 
+            holder.bind(currentSubjectEntity);
+
+//            holder.cardArtistBinding.setArtistModel(currentSubjectEntity);
 
             holder.cardArtistBinding.cardArtist.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -108,5 +112,12 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
 
             cardArtistBinding = itemView;
         }
+
+        public void bind(Artist artist) {
+            cardArtistBinding.setObj(artist);
+            cardArtistBinding.executePendingBindings();
+        }
     }
+
+
 }
