@@ -12,17 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
 import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.DaggerFragment;
 
 
@@ -37,6 +34,8 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
 
     protected BaseActivity parent;
     protected Snackbar snackbar;
+
+//  protected NavController navController;
 
 
     protected abstract Class<V> getViewModel();
@@ -67,22 +66,28 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        navController = Navigation.findNavController(view);
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init(savedInstanceState);
     }
 
-    public void init(Bundle savedInstanceState){
-        init_events();
-        init_fragment(savedInstanceState);
 
+    public void init(Bundle savedInstanceState){
+        initFragment(savedInstanceState);
+        initEvents();
     }
 
-    public abstract void init_events();
+    public abstract void initEvents();
 
-    public abstract void init_fragment(Bundle savedInstanceState);
+    public abstract void initFragment(Bundle savedInstanceState);
 
-    public abstract boolean on_back_pressed();
+    public abstract boolean onBackPressed();
 
     public void cancel() {
         removeSnackbar();

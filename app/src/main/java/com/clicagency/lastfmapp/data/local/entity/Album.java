@@ -11,6 +11,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "albums")
-public class Album {
+public class Album implements Serializable{
 
     @PrimaryKey()
     @ColumnInfo(name = "mbid")

@@ -1,6 +1,7 @@
-package com.clicagency.lastfmapp.viewmodel;
+package com.clicagency.lastfmapp.view.fragments.albumDetailsFragment;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -33,8 +34,9 @@ public class AlbumDetailsViewModel extends ViewModel {
         this.albumRepository = albumRepository;
 
         this.mAllAlbums = albumRepository.getAllAlbums();
-
+        Log.e("AlbumDetailsViewModel","Init()");
     }
+
 
 
 

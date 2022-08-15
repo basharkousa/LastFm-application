@@ -1,6 +1,7 @@
 package com.clicagency.lastfmapp.view.base;
 
-import android.app.Activity;
+import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
+
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Build;
@@ -18,6 +19,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.transition.Fade;
 import androidx.transition.TransitionInflater;
 
@@ -35,18 +38,38 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppC
     protected ViewGroup fragment_place;
     protected BaseFragment current_fragment;
 
+    public NavController navController;
+
+
 
     @LayoutRes
     protected abstract int getLayoutRes();
+
+
+    protected abstract int getNavigationHostRes();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, getLayoutRes());
+//        navHostFragment =
+//                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        navController = navHostFragment.getNavController();
+//        navController = Navigation.findNavController(this,R.id.navigation_header_container);
+
+        if(getNavigationHostRes()>0){
+            // Get the navigation host fragment from this Activity
+            NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(getNavigationHostRes());
+            // Instantiate the navController using the NavHostFragment
+            navController = navHostFragment.getNavController();
+        }
+
+
         set_fragment_place();
         init_events();
         init_activity();
     }
+
 
     public abstract void init_activity();
 
@@ -56,7 +79,7 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppC
 
     @Override
     public void onBackPressed() {
-        if (current_fragment != null && current_fragment.on_back_pressed()) {
+        if (current_fragment != null && current_fragment.onBackPressed()) {
             current_fragment.cancel();
             //todo
             //current_fragment.setForward(false);
@@ -236,11 +259,11 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppC
         View view = toast.getView();
 
         //Gets the actual oval background of the Toast then sets the colour filter
-        view.getBackground().setColorFilter(fetchColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+//        view.getBackground().setColorFilter(fetchColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //Gets the TextView from the Toast so it can be editted
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(fetchColor(R.color.tabs_white));
+//        TextView text = view.findViewById(android.R.id.message);
+//        text.setTextColor(fetchColor(R.color.tabs_white));
         //BasicTools.setDroidFont(this,text);
 
         toast.show();
@@ -252,11 +275,11 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppC
         View view = toast.getView();
 
         //Gets the actual oval background of the Toast then sets the colour filter
-        view.getBackground().setColorFilter(fetchColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+//        view.getBackground().setColorFilter(fetchColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //Gets the TextView from the Toast so it can be editted
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(fetchColor(R.color.tabs_white));
+//        TextView text = view.findViewById(android.R.id.message);
+//        text.setTextColor(fetchColor(R.color.tabs_white));
         //BasicTools.setDroidFont(this,text);
 
 
@@ -268,11 +291,11 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppC
         Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(msg), Toast.LENGTH_SHORT);
         View view = toast.getView();
         //Gets the actual oval background of the Toast then sets the colour filter
-        view.getBackground().setColorFilter(fetchColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+//        view.getBackground().setColorFilter(fetchColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //Gets the TextView from the Toast so it can be editted
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(fetchColor(R.color.tabs_white));
+//        TextView text = view.findViewById(android.R.id.message);
+//        text.setTextColor(fetchColor(R.color.tabs_white));
         //BasicTools.setDroidFont(this,text);
 
         toast.show();

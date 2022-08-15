@@ -29,7 +29,8 @@
             android:name=".view.activities.SplashActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />

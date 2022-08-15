@@ -1,14 +1,10 @@
-package com.clicagency.lastfmapp.view.fragments;
+package com.clicagency.lastfmapp.view.fragments.albumDetailsFragment;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.clicagency.lastfmapp.R;
@@ -20,10 +16,10 @@ import com.clicagency.lastfmapp.data.remote.models.albums.albumsArtist.Artist;
 import com.clicagency.lastfmapp.databinding.FragmentAlbumDetailsBinding;
 import com.clicagency.lastfmapp.tools.AnimationUtilss;
 import com.clicagency.lastfmapp.tools.BasicTools;
+import com.clicagency.lastfmapp.view.activities.MainActivity;
 import com.clicagency.lastfmapp.view.adapters.TracksAdapter;
 import com.clicagency.lastfmapp.view.base.BaseFragment;
 import com.clicagency.lastfmapp.view.listeners.IOnClick;
-import com.clicagency.lastfmapp.viewmodel.AlbumDetailsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +35,12 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected Class<AlbumDetailsViewModel> getViewModel() {
         return AlbumDetailsViewModel.class;
     }
@@ -49,7 +51,7 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     }
 
     @Override
-    public void init_events() {
+    public void initEvents() {
         dataBinding.btnBookmarkActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,15 +76,31 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     }
 
     @Override
-    public void init_fragment(Bundle savedInstanceState) {
+    public void initFragment(Bundle savedInstanceState) {
 
-        if (album != null) {
+//        if (album != null) {
+//            albumName = album.getName();
+//            if (album.getArtist() != null)
+//                artistName = album.getArtist().getName();
+//            else
+//                artistName = album.getArtist_name();
+//        }
+
+        ((MainActivity)parent).dataBinding.bottomNavigation.hideBottomNavigation();
+
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            album = (Album) bundle.getSerializable("Album");
+
             albumName = album.getName();
             if (album.getArtist() != null)
                 artistName = album.getArtist().getName();
             else
                 artistName = album.getArtist_name();
+
         }
+
+
         getAlbumsDetails();
         observeAlbumDetails();
         observeErrorMessage();
@@ -90,7 +108,7 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     }
 
     @Override
-    public boolean on_back_pressed() {
+    public boolean onBackPressed() {
         return true;
     }
 
@@ -231,7 +249,7 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
                 String tag_name = tags.get(i).getName();
                 tagsStr.add(tag_name);
             }
-            dataBinding.tagcontainerLayout.setTags(tagsStr);
+//            dataBinding.tagcontainerLayout.setTags(tagsStr);
         }
 
     }
@@ -256,4 +274,9 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
         dataBinding.btnBookmarkActive.setEnabled(false);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((MainActivity)parent).dataBinding.bottomNavigation.restoreBottomNavigation();
+    }
 }

@@ -1,12 +1,13 @@
-package com.clicagency.lastfmapp.view.fragments;
+package com.clicagency.lastfmapp.view.fragments.searchArtistFragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -15,19 +16,16 @@ import com.clicagency.lastfmapp.data.remote.models.State;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.ArtistsResponse;
 import com.clicagency.lastfmapp.databinding.FragmentArtistsSerarchBinding;
-import com.clicagency.lastfmapp.tools.ObjectMessage;
 import com.clicagency.lastfmapp.view.adapters.MyArtistAdapter;
-import com.clicagency.lastfmapp.view.listeners.IOnClick;
 import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.tools.SpacesItemDecoration;
-import com.clicagency.lastfmapp.view.adapters.ArtistAdapter;
 import com.clicagency.lastfmapp.view.base.BaseFragment;
-import com.clicagency.lastfmapp.viewmodel.ArtistViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, FragmentArtistsSerarchBinding> {
+
+public class SearchArtistsFragment extends BaseFragment<SearchArtistViewModel, FragmentArtistsSerarchBinding> {
 
 
     private ArrayList<Artist> artists = new ArrayList<>();
@@ -42,8 +40,8 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
 
 
     @Override
-    protected Class<ArtistViewModel> getViewModel() {
-        return ArtistViewModel.class;
+    protected Class<SearchArtistViewModel> getViewModel() {
+        return SearchArtistViewModel.class;
     }
 
 
@@ -53,7 +51,7 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
     }
 
     @Override
-    public void init_events() {
+    public void initEvents() {
 
         dataBinding.rootLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -106,12 +104,32 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
     }
 
     @Override
-    public void init_fragment(Bundle savedInstanceState) {
+    public void initFragment(Bundle savedInstanceState) {
         initRecycler();
         observeArtists();
 //        viewModel.init();
 //        if (artists.size() == 0)
 //            loadArtists();
+
+        //Fragment B
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                String result = bundle.getString("bundleKey");
+                // Do something with the result
+            }
+        });
+
+        //Fragment C return data to fragment B
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle result = new Bundle();
+//                result.putString("bundleKey", "result");
+//                getParentFragmentManager().setFragmentResult("requestKey", result);
+//            }
+//        });
 
     }
 
@@ -189,11 +207,14 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
             dataBinding.emptyTv.setVisibility(View.VISIBLE);
 //        artists.addAll(data.getArtists().getArtist());
         adapter = new MyArtistAdapter(data.getArtists().getArtist(),(artist) -> {
-            AlbumsArtistFragment albumsArtistFragment = new AlbumsArtistFragment();
-            if (artist != null)
-                if (artist.getName() != null)
-                    albumsArtistFragment.setArtist(artist.getName());
-            parent.show_fragment2(albumsArtistFragment, false);
+//            AlbumsArtistFragment albumsArtistFragment = new AlbumsArtistFragment();
+//            if (artist != null)
+//                if (artist.getName() != null)
+//                    albumsArtistFragment.setArtist(artist.getName());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("key",artist);
+//            parent.show_fragment2(albumsArtistFragment, false);
+            parent.navController.navigate(R.id.albumsArtistFragment,bundle);
         });
         dataBinding.recycler.setAdapter(adapter);
 //        adapter.setArtistsList(data.getArtists().getArtist());
@@ -242,7 +263,7 @@ public class SearchArtistsFragment extends BaseFragment<ArtistViewModel, Fragmen
     }
 
     @Override
-    public boolean on_back_pressed() {
+    public boolean onBackPressed() {
         return true;
     }
 }

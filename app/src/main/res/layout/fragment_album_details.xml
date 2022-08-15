@@ -324,26 +324,26 @@
 
                         </LinearLayout>
 
-                        <co.lujun.androidtagview.TagContainerLayout
-                            android:id="@+id/tagcontainerLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:padding="10dp"
-                            app:container_background_color="@color/tabs_white"
-                            app:container_border_color="@color/tabs_white"
-                            app:container_enable_drag="false"
-                            app:horizontal_interval="10dp"
-                            app:tag_background_color="@color/tabs_white"
-                            app:tag_border_color="@color/main_light_blue"
-                            app:tag_clickable="true"
-                            app:tag_corner_radius="18dp"
-                            app:tag_text_color="@color/main_light_blue"
-                            app:tag_theme="none"
-                            app:vertical_interval="10dp"
+<!--                        <co.lujun.androidtagview.TagContainerLayout-->
+<!--                            android:id="@+id/tagcontainerLayout"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="4dp"-->
+<!--                            android:padding="10dp"-->
+<!--                            app:container_background_color="@color/tabs_white"-->
+<!--                            app:container_border_color="@color/tabs_white"-->
+<!--                            app:container_enable_drag="false"-->
+<!--                            app:horizontal_interval="10dp"-->
+<!--                            app:tag_background_color="@color/tabs_white"-->
+<!--                            app:tag_border_color="@color/main_light_blue"-->
+<!--                            app:tag_clickable="true"-->
+<!--                            app:tag_corner_radius="18dp"-->
+<!--                            app:tag_text_color="@color/main_light_blue"-->
+<!--                            app:tag_theme="none"-->
+<!--                            app:vertical_interval="10dp"-->
 
 
-                            />
+<!--                            />-->
 
                         <LinearLayout
                             android:layout_width="match_parent"

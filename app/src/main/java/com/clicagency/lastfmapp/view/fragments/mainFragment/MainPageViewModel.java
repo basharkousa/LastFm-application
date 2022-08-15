@@ -1,6 +1,7 @@
-package com.clicagency.lastfmapp.viewmodel;
+package com.clicagency.lastfmapp.view.fragments.mainFragment;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,6 +24,10 @@ public class MainPageViewModel extends ViewModel{
 
         mRepository = albumRepository;
         mAlbumsBypage = mRepository.getAllAlbumsPerPage();
+//        mRepository.printMessage("hello from repository");
+
+        Log.e("MainPageViewModel","Init()");
+
     }
 
     public LiveData<PagedList<Album>> getmAlbumsPerPage() {

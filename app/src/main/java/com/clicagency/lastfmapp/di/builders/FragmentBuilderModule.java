@@ -1,9 +1,9 @@
 package com.clicagency.lastfmapp.di.builders;
 
-import com.clicagency.lastfmapp.view.fragments.AlbumDetailFragment;
-import com.clicagency.lastfmapp.view.fragments.AlbumsArtistFragment;
-import com.clicagency.lastfmapp.view.fragments.MainPageFragment;
-import com.clicagency.lastfmapp.view.fragments.SearchArtistsFragment;
+import com.clicagency.lastfmapp.view.fragments.albumDetailsFragment.AlbumDetailFragment;
+import com.clicagency.lastfmapp.view.fragments.albumsArtistFragment.AlbumsArtistFragment;
+import com.clicagency.lastfmapp.view.fragments.mainFragment.MainPageFragment;
+import com.clicagency.lastfmapp.view.fragments.searchArtistFragment.SearchArtistsFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

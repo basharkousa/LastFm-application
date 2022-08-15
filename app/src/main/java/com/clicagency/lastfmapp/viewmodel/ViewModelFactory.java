@@ -27,6 +27,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @Override
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+
         Provider<? extends ViewModel> creator = creators.get(modelClass);
         if (creator == null) {
             for (Map.Entry<Class<? extends ViewModel>, Provider<ViewModel>> entry : creators.entrySet()) {

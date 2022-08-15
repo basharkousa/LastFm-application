@@ -1,4 +1,4 @@
-package com.clicagency.lastfmapp.viewmodel;
+package com.clicagency.lastfmapp.view.fragments.searchArtistFragment;
 
 import android.app.Application;
 import android.util.Log;
@@ -21,8 +21,10 @@ import com.clicagency.lastfmapp.view.listeners.IResponseListener;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public class ArtistViewModel extends ViewModel{
+@Singleton
+public class SearchArtistViewModel extends ViewModel{
 
     private MutableLiveData<List<Artist>> mutableLiveDataArtists;
 
@@ -59,8 +61,9 @@ public class ArtistViewModel extends ViewModel{
     private ArtistRepository artistRepository;
 
     @Inject
-    public ArtistViewModel(ArtistRepository artistRepository) {
+    public SearchArtistViewModel(ArtistRepository artistRepository) {
        this.artistRepository = artistRepository;
+        Log.e("SearchArtistViewModel","Init()");
         init();
     }
 

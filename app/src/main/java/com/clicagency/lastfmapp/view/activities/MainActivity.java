@@ -1,5 +1,7 @@
 package com.clicagency.lastfmapp.view.activities;
 
+import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
+
 import android.graphics.Color;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -10,8 +12,8 @@ import com.clicagency.lastfmapp.R;
 import com.clicagency.lastfmapp.databinding.ActivityMainBinding;
 import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.view.base.BaseActivity;
-import com.clicagency.lastfmapp.view.fragments.MainPageFragment;
-import com.clicagency.lastfmapp.view.fragments.SearchArtistsFragment;
+import com.clicagency.lastfmapp.view.fragments.mainFragment.MainPageFragment;
+import com.clicagency.lastfmapp.view.fragments.searchArtistFragment.SearchArtistsFragment;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
@@ -26,13 +28,24 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     @Override
+    protected int getNavigationHostRes() {
+        return R.id.nav_host_fragment;
+    }
+
+    @Override
     public void init_activity() {
+
         BasicTools.hideSoftKeyboard_adjust(MainActivity.this);
         initBottomNavigation();
-        dataBinding.bottomNavigation.setCurrentItem(0);
+//        dataBinding.bottomNavigation.setCurrentItem(0);
+
 
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        return navController.navigateUp() || super.onSupportNavigateUp();
+    }
 
     @Override
     public void init_events() {
@@ -43,13 +56,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 if (wasSelected) {
                     switch (position) {
                         case 0:
-                            main_fragment = MainPageFragment.newInstance();
-                            show_fragment2(main_fragment, true, false);
+//                            main_fragment = MainPageFragment.newInstance();
+//
+//                            show_fragment2(main_fragment, true, false);
+
+//                            navController.popBackStack(R.id.mainPageFragment,true);
+//                            navController.navigate(R.id.mainPageFragment);
                             return true;
 
                         case 1:
-                            mainSearchFragment = SearchArtistsFragment.newInstance();
-                            show_fragment2(mainSearchFragment, true, false);
+//                            mainSearchFragment = SearchArtistsFragment.newInstance();
+//                            show_fragment2(mainSearchFragment, true, false);
+
+//                            navController.popBackStack(R.id.searchArtistFragment,true);
+//                            navController.navigate(R.id.searchArtistFragment);
                             return true;
                     }
                     return false;
@@ -57,16 +77,29 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
                 switch (position) {
                     case 0:
-                        if (main_fragment == null)
-                            main_fragment = MainPageFragment.newInstance();
-                        show_fragment2(main_fragment, true, false);
+//                        if (main_fragment == null)
+//                            main_fragment = MainPageFragment.newInstance();
+//                        show_fragment2(main_fragment, true, false);
                         // openFab();
+
+                        navController.popBackStack();
+                        navController.navigate(R.id.mainPageFragment);
                         return true;
 
                     case 1:
-                        if (mainSearchFragment == null)
-                            mainSearchFragment = SearchArtistsFragment.newInstance();
-                        show_fragment2(mainSearchFragment, true, false);
+//                        if (mainSearchFragment == null)
+//                            mainSearchFragment = SearchArtistsFragment.newInstance();
+//                        show_fragment2(mainSearchFragment, true, false);
+                        navController.popBackStack();
+//                        NavOptions navOptions = new NavOptions.Builder()
+//                                .setLaunchSingleTop(true)
+//                                .setRestoreState(false)
+//                                .setPopUpTo(NavGraph.findStartDestination(navController.getGraph()).getId(),
+//                                        false, // inclusive
+//                                        true) // saveState
+//                                .build();
+                        navController.navigate(R.id.searchArtistFragment);
+
                         return true;
                 }
                 return false;
@@ -104,10 +137,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     }
 
-    public void showBottomNavigation(){
+    public void showBottomNavigation() {
         dataBinding.bottomNavigation.restoreBottomNavigation();
     }
-    public void hideBottomNavigation(){
+
+    public void hideBottomNavigation() {
         dataBinding.bottomNavigation.hideBottomNavigation();
     }
 }

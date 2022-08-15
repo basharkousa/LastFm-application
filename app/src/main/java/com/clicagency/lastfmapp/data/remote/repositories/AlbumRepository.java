@@ -1,6 +1,7 @@
 package com.clicagency.lastfmapp.data.remote.repositories;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -22,6 +23,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import dagger.Provides;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,6 +78,10 @@ public class AlbumRepository {
     //for database
     public LiveData<List<Album>> getAllAlbums() {
         return mAlbums;
+    }
+
+    public void printMessage(String str){
+        Log.e("printMessage",str);
     }
 
     public LiveData<PagedList<Album>> getAllAlbumsPerPage() {

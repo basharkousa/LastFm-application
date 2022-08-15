@@ -1,14 +1,12 @@
-package com.clicagency.lastfmapp.view.fragments;
+package com.clicagency.lastfmapp.view.fragments.mainFragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,8 +18,8 @@ import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.tools.SpacesItemDecoration;
 import com.clicagency.lastfmapp.view.adapters.AlbumPagedAdapter;
 import com.clicagency.lastfmapp.view.base.BaseFragment;
+import com.clicagency.lastfmapp.view.fragments.albumDetailsFragment.AlbumDetailFragment;
 import com.clicagency.lastfmapp.view.listeners.IOnAlbumClick;
-import com.clicagency.lastfmapp.viewmodel.MainPageViewModel;
 
 public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMainPageBinding> {
 
@@ -46,7 +44,7 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
     }
 
     @Override
-    public void init_events() {
+    public void initEvents() {
         dataBinding.retryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,12 +56,16 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
             public void itemClicked(Album album, int position, View view) {
 
                 if (BasicTools.isConnected(parent)) {
-                    AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment();
-                    albumDetailFragment.setAlbum(album);
+//
+//                  albumDetailFragment.setArguments(args);
+//                  parent.show_fragment(albumDetailFragment, view, "transition" + position);
                     Bundle args = new Bundle();
                     args.putString("transitionName", "transition" + position);
-                    albumDetailFragment.setArguments(args);
-                    parent.show_fragment(albumDetailFragment, view, "transition" + position);
+                    args.putSerializable("Album",album);
+//                    albumDetailFragment.setArguments(args);
+//                    parent.show_fragment(albumDetailFragment, view, "transition" + position);
+                    parent.navController.navigate(R.id.albumDetailsFragment,args);
+
                     //parent.show_fragment2(albumDetailFragment,false);
                 } else {
                     parent.showToastMessageShort(R.string.failed_to_connect);
@@ -84,7 +86,7 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
     }
 
     @Override
-    public void init_fragment(Bundle savedInstanceState) {
+    public void initFragment(Bundle savedInstanceState) {
         initRecycler();
         loadAlbums();
     }
@@ -127,8 +129,24 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
 
     }
 
+
     @Override
-    public boolean on_back_pressed() {
+    public void onResume() {
+        Log.e("OnResume","");
+        super.onResume();
+    }
+
+//    parent.getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+//        @Override
+//        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+//            // We use a String here, but any type that can be put in a Bundle is supported
+//            String result = bundle.getString("bundleKey");
+//            // Do something with the result
+//        }
+//    });
+
+    @Override
+    public boolean onBackPressed() {
         return true;
     }
 }

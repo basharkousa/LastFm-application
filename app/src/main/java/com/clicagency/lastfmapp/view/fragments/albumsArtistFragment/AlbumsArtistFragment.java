@@ -1,14 +1,11 @@
-package com.clicagency.lastfmapp.view.fragments;
+package com.clicagency.lastfmapp.view.fragments.albumsArtistFragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,23 +17,18 @@ import com.clicagency.lastfmapp.databinding.FragmentAlbumsArtistBinding;
 import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.tools.SpacesItemDecoration;
 import com.clicagency.lastfmapp.view.adapters.AlbumNetStateAdapter;
-import com.clicagency.lastfmapp.view.adapters.AlbumPagedAdapter;
 import com.clicagency.lastfmapp.view.base.BaseFragment;
-import com.clicagency.lastfmapp.view.listeners.IOnAlbumClick;
-import com.clicagency.lastfmapp.view.listeners.IReceivable;
-import com.clicagency.lastfmapp.viewmodel.AlbumViewModel;
 
-public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentAlbumsArtistBinding> {
+public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, FragmentAlbumsArtistBinding> {
 
-
-    private String artist = "";
+    private Artist artist;
     private AlbumNetStateAdapter adapter;
     private GridLayoutManager layout_manager;
 
 
     @Override
-    protected Class<AlbumViewModel> getViewModel() {
-        return AlbumViewModel.class;
+    protected Class<AlbumsArtistViewModel> getViewModel() {
+        return AlbumsArtistViewModel.class;
     }
 
     @Override
@@ -45,7 +37,7 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
     }
 
     @Override
-    public void init_events() {
+    public void initEvents() {
         dataBinding.retryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,12 +55,16 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
             public void itemClicked(Album album, int position, View view) {
 
                 if (BasicTools.isConnected(parent)) {
-                    AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment();
-                    albumDetailFragment.setAlbum(album);
+//                    AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment();
+//                    albumDetailFragment.setAlbum(album);
                     Bundle args = new Bundle();
                     args.putString("transitionName", "transition" + position);
-                    albumDetailFragment.setArguments(args);
-                    parent.show_fragment(albumDetailFragment, view, "transition" + position);
+                    args.putSerializable("Album",album);
+//                    albumDetailFragment.setArguments(args);
+//                    parent.show_fragment(albumDetailFragment, view, "transition" + position);
+                    parent.navController.navigate(R.id.albumDetailsFragment,args);
+
+
                     //parent.show_fragment2(albumDetailFragment,false);
                 } else {
                     parent.showToastMessageShort(R.string.failed_to_connect);
@@ -95,13 +91,17 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
     }
 
     @Override
-    public void init_fragment(Bundle savedInstanceState) {
+    public void initFragment(Bundle savedInstanceState) {
+         Bundle bundle = getArguments();
+        if (bundle != null){
+          artist = (Artist) bundle.getSerializable("key");
+          dataBinding.tvArtistName.setText(artist.getName()+"'s");
+        }
 
-        if (artist != null) if (artist != null)
-            dataBinding.tvArtistName.setText(artist + "'s");
 
         initRecycler();
         loadAlbums();
+//        viewModel.printMess();
         viewModel.getNetworkState().observe(this, networkState -> adapter.setNetworkState(networkState));
 
     }
@@ -110,7 +110,7 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
         dataBinding.retryBtn.setVisibility(View.GONE);
         dataBinding.rootLayout.setRefreshing(true);
         if (BasicTools.isConnected(parent)) {
-            viewModel.getAlbums(artist);
+            viewModel.getAlbums(artist.getName());
             viewModel.getAlbumPagedList().observe(this, new Observer<PagedList<Album>>() {
                 @Override
                 public void onChanged(@Nullable PagedList<Album> items) {
@@ -143,7 +143,9 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
 
     }
 
-//    @ArtistName
+
+
+    //    @ArtistName
 //    public String getArtistName() {
 ////        if(artist != null){
 ////            if (artist != null)
@@ -154,12 +156,12 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumViewModel, FragmentA
 
 
     @Override
-    public boolean on_back_pressed() {
+    public boolean onBackPressed() {
         return true;
     }
 
     public void setArtist(String artistnew) {
-        artist = artistnew;
+//        artist = artistnew;
     }
 
 //    @Override

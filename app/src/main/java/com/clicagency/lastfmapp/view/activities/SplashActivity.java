@@ -34,4 +34,9 @@ public class SplashActivity extends BaseActivity {
     public void set_fragment_place() {
 
     }
+
+    @Override
+    protected int getNavigationHostRes() {
+        return 0;
+    }
 }

@@ -1,6 +1,7 @@
-package com.clicagency.lastfmapp.viewmodel;
+package com.clicagency.lastfmapp.view.fragments.albumsArtistFragment;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -12,6 +13,8 @@ import androidx.paging.PagedList;
 
 import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.data.remote.models.NetworkState;
+import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
+import com.clicagency.lastfmapp.data.remote.repositories.AlbumRepository;
 import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSource;
 import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSourceFactory;
 
@@ -20,7 +23,7 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-public class AlbumViewModel extends ViewModel {
+public class AlbumsArtistViewModel extends ViewModel {
 
     //creating livedata for PagedList and PagedKeyedDataSource
 
@@ -30,13 +33,28 @@ public class AlbumViewModel extends ViewModel {
     private LiveData<PagedList<Album>> albumPagedList;
     private LiveData<NetworkState> networkState;
 
+//    Artist artistModel = getAr;
+
     @Inject
     AlbumDataSourceFactory albumDataSourceFactory;
 
     @Inject
-    public AlbumViewModel() {
+    AlbumRepository repository;
+
+
+    @Inject
+    public AlbumsArtistViewModel() {
+
+        Log.e("AlbumsArtistViewModel","Init()");
+
+        ///Test it for null
 
     }
+
+   void printMess(){
+       repository.printMessage("hello_from_repository");
+
+   }
 
     public void getAlbums(String artistName) {
         executor = Executors.newFixedThreadPool(5);

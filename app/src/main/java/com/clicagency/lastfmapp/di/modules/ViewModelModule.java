@@ -4,10 +4,10 @@ package com.clicagency.lastfmapp.di.modules;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.clicagency.lastfmapp.viewmodel.AlbumDetailsViewModel;
-import com.clicagency.lastfmapp.viewmodel.AlbumViewModel;
-import com.clicagency.lastfmapp.viewmodel.ArtistViewModel;
-import com.clicagency.lastfmapp.viewmodel.MainPageViewModel;
+import com.clicagency.lastfmapp.view.fragments.albumDetailsFragment.AlbumDetailsViewModel;
+import com.clicagency.lastfmapp.view.fragments.albumsArtistFragment.AlbumsArtistViewModel;
+import com.clicagency.lastfmapp.view.fragments.searchArtistFragment.SearchArtistViewModel;
+import com.clicagency.lastfmapp.view.fragments.mainFragment.MainPageViewModel;
 import com.clicagency.lastfmapp.viewmodel.ViewModelFactory;
 
 import dagger.Binds;
@@ -32,15 +32,15 @@ public abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AlbumViewModel.class)
+    @ViewModelKey(AlbumsArtistViewModel.class)
     @SuppressWarnings("unused")
-    abstract ViewModel bindsAlbumViewModel(AlbumViewModel albumViewModel);
+    abstract ViewModel bindsAlbumViewModel(AlbumsArtistViewModel albumsArtistViewModel);
 
     @Binds
     @IntoMap
-    @ViewModelKey(ArtistViewModel.class)
+    @ViewModelKey(SearchArtistViewModel.class)
     @SuppressWarnings("unused")
-    abstract ViewModel bindsArtistViewModel(ArtistViewModel artistViewModel);
+    abstract ViewModel bindsArtistViewModel(SearchArtistViewModel searchArtistViewModel);
 
     @Binds
     @IntoMap

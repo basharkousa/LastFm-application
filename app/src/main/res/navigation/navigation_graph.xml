@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/mainPageFragment"
+    android:id="@+id/navigation_graph">
+
+    <fragment
+      android:id="@+id/mainPageFragment"
+      android:name="com.clicagency.lastfmapp.view.fragments.mainFragment.MainPageFragment"
+      android:label="main_page_fragment"
+      tools:layout="@layout/fragment_main_page"/>
+
+    <fragment
+        android:id="@+id/searchArtistFragment"
+        android:name="com.clicagency.lastfmapp.view.fragments.searchArtistFragment.SearchArtistsFragment"
+        android:label="search_artist_page_fragment"
+        tools:layout="@layout/fragment_artists_serarch">
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumsArtistFragment"
+        android:name="com.clicagency.lastfmapp.view.fragments.albumsArtistFragment.AlbumsArtistFragment"
+        android:label="albums_artist_page_fragment"
+        tools:layout="@layout/fragment_albums_artist">
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/albumDetailsFragment"
+        android:name="com.clicagency.lastfmapp.view.fragments.albumDetailsFragment.AlbumDetailFragment"
+        android:label="album_details_page_fragment"
+        tools:layout="@layout/fragment_album_details">
+    </fragment>
+
+</navigation>
