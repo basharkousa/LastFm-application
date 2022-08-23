@@ -135,4 +135,7 @@ public class BasicTools {
         }
     }
 
+    public static void logMessage(String key, String value) {
+        Log.e(key,value);
+    }
 }

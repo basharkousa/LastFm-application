@@ -62,7 +62,8 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
                     args.putSerializable("Album",album);
 //                    albumDetailFragment.setArguments(args);
 //                    parent.show_fragment(albumDetailFragment, view, "transition" + position);
-                    parent.navController.navigate(R.id.albumDetailsFragment,args);
+//                    parent.navController.navigate(R.id.albumDetailsFragment,args);
+                    parent.navigateTo(R.id.albumDetailsFragment,args);
 
 
                     //parent.show_fragment2(albumDetailFragment,false);
@@ -73,7 +74,6 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
 
             }
         });
-
         dataBinding.rootLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -81,12 +81,15 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
                 loadAlbums();
             }
         });
-
         dataBinding.retryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadAlbums();
             }
+        });
+
+        dataBinding.tvArtistName.setOnClickListener(view -> {
+            parent.onBackPressed();
         });
     }
 
@@ -97,7 +100,7 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
           artist = (Artist) bundle.getSerializable("key");
           dataBinding.tvArtistName.setText(artist.getName()+"'s");
         }
-
+        getLifecycle().addObserver(viewModel);
 
         initRecycler();
         loadAlbums();
@@ -106,11 +109,12 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
 
     }
 
+    //This must be observe, code it
     private void loadAlbums() {
         dataBinding.retryBtn.setVisibility(View.GONE);
         dataBinding.rootLayout.setRefreshing(true);
         if (BasicTools.isConnected(parent)) {
-            viewModel.getAlbums(artist.getName());
+//            viewModel.getAlbums(artist.getName());
             viewModel.getAlbumPagedList().observe(this, new Observer<PagedList<Album>>() {
                 @Override
                 public void onChanged(@Nullable PagedList<Album> items) {
@@ -157,7 +161,8 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
 
     @Override
     public boolean onBackPressed() {
-        return true;
+        BasicTools.logMessage("fragment","fragment_onBackPressed");
+        return false;
     }
 
     public void setArtist(String artistnew) {

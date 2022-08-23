@@ -19,12 +19,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.transition.Fade;
 import androidx.transition.TransitionInflater;
 
 import com.clicagency.lastfmapp.R;
+import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.tools.DataMessage;
 import com.clicagency.lastfmapp.tools.ObjectMessage;
 
@@ -77,8 +79,12 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppC
 
     public abstract void set_fragment_place();
 
+
+
     @Override
     public void onBackPressed() {
+        BasicTools.logMessage("Activity","onBackPressed "+navController.getBackQueue().getSize());
+
         if (current_fragment != null && current_fragment.onBackPressed()) {
             current_fragment.cancel();
             //todo
@@ -105,6 +111,14 @@ public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppC
             showToastMessageShort(R.string.double_click);
         back_pressed = System.currentTimeMillis();
 
+    }
+
+    public void navigateTo(int fragmentId,Bundle args){
+//        current_fragment = (BaseFragment) navController.getContext(). ;
+//        NavBackStackEntry navBackStackEntry;
+//        navBackStackEntry.
+//        navController.getCurrentBackStackEntry().
+        navController.navigate(fragmentId,args);
     }
 
     public void show_fragment2(final BaseFragment fragment, final boolean clearStack) {

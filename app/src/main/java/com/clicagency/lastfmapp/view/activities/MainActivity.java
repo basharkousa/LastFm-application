@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavOptions;
+
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.clicagency.lastfmapp.R;
@@ -53,6 +56,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
 
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setLaunchSingleTop(true)
+                        .setRestoreState(false)
+                        .setPopUpTo(NavGraph.findStartDestination(navController.getGraph()).getId(),
+                                false, // inclusive
+                                true) // saveState
+                        .build();
+
                 if (wasSelected) {
                     switch (position) {
                         case 0:
@@ -82,23 +93,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //                        show_fragment2(main_fragment, true, false);
                         // openFab();
 
-                        navController.popBackStack();
-                        navController.navigate(R.id.mainPageFragment);
+//                        navController.popBackStack();
+
+                        navController.getGraph().setStartDestination(R.id.mainPageFragment);
+                        navController.navigate(R.id.mainPageFragment,null,navOptions);
                         return true;
 
                     case 1:
 //                        if (mainSearchFragment == null)
 //                            mainSearchFragment = SearchArtistsFragment.newInstance();
 //                        show_fragment2(mainSearchFragment, true, false);
-                        navController.popBackStack();
-//                        NavOptions navOptions = new NavOptions.Builder()
-//                                .setLaunchSingleTop(true)
-//                                .setRestoreState(false)
-//                                .setPopUpTo(NavGraph.findStartDestination(navController.getGraph()).getId(),
-//                                        false, // inclusive
-//                                        true) // saveState
-//                                .build();
-                        navController.navigate(R.id.searchArtistFragment);
+//                        navController.popBackStack();
+                        navController.navigate(R.id.searchArtistFragment,null,navOptions);
 
                         return true;
                 }

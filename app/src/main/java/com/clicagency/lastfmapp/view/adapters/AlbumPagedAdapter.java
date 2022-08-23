@@ -63,7 +63,7 @@ public class AlbumPagedAdapter extends PagedListAdapter<Album,AlbumPagedAdapter.
 
     }
 
-    private static DiffUtil.ItemCallback<Album> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<Album> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Album>() {
                 @Override
                 public boolean areItemsTheSame(Album oldItem, Album newItem) {

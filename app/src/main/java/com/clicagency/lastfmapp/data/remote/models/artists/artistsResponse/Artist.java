@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.databinding.BaseObservable;
 import androidx.databinding.BindingAdapter;
 
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import com.google.gson.annotations.SerializedName;
 
 import javax.inject.Inject;
 
-public class Artist implements Serializable
+public class Artist extends BaseObservable implements Serializable
 {
 
     @SerializedName("url")

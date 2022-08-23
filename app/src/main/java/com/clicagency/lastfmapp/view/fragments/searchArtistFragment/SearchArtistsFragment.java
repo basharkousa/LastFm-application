@@ -203,6 +203,7 @@ public class SearchArtistsFragment extends BaseFragment<SearchArtistViewModel, F
     }
     private void buildContent(ArtistsResponse data) {
         dataBinding.rootLayout.setRefreshing(false);
+        dataBinding.recycler.setVisibility(View.VISIBLE);
         if (data.getArtists().getArtist().size() == 0)
             dataBinding.emptyTv.setVisibility(View.VISIBLE);
 //        artists.addAll(data.getArtists().getArtist());
@@ -222,17 +223,18 @@ public class SearchArtistsFragment extends BaseFragment<SearchArtistViewModel, F
     }
     private void buildFailed() {
         dataBinding.progressMain.setVisibility(View.GONE);
+        dataBinding.recycler.setVisibility(View.GONE);
         parent.showTostMessage(R.string.failed_to_connect);
         dataBinding.rootLayout.setRefreshing(false);
 
     }
     private void buildLoadingSection() {
         dataBinding.rootLayout.setRefreshing(true);
+        dataBinding.recycler.setVisibility(View.GONE);
         dataBinding.retryBtn.setVisibility(View.GONE);
         dataBinding.emptyTv.setVisibility(View.GONE);
         dataBinding.progressMain.setVisibility(View.VISIBLE);
     }
-
     private void loadArtists(String query) {
 //          viewModel.getArtists(query);
 //        artists.clear();

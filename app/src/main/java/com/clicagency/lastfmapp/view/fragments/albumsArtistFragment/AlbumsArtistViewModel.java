@@ -4,6 +4,8 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
@@ -23,7 +25,7 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-public class AlbumsArtistViewModel extends ViewModel {
+public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycleObserver {
 
     //creating livedata for PagedList and PagedKeyedDataSource
 
@@ -46,12 +48,16 @@ public class AlbumsArtistViewModel extends ViewModel {
     public AlbumsArtistViewModel() {
 
         Log.e("AlbumsArtistViewModel","Init()");
-
         ///Test it for null
-
     }
 
-   void printMess(){
+    @Override
+    public void onStart(@NonNull LifecycleOwner owner) {
+        DefaultLifecycleObserver.super.onStart(owner);
+        printMess();
+    }
+
+    void printMess(){
        repository.printMessage("hello_from_repository");
 
    }

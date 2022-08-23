@@ -87,6 +87,7 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
 
     @Override
     public void initFragment(Bundle savedInstanceState) {
+        getLifecycle().addObserver(viewModel);
         initRecycler();
         loadAlbums();
     }

@@ -9,6 +9,7 @@ import com.clicagency.lastfmapp.data.local.AlbumDatabase;
 import com.clicagency.lastfmapp.data.local.dao.AlbumDao;
 import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.remote.RequestInterceptor;
+import com.clicagency.lastfmapp.data.remote.repositories.AlbumRepository;
 import com.clicagency.lastfmapp.tools.Constants;
 
 import java.util.concurrent.TimeUnit;
@@ -60,6 +61,12 @@ public class AppModule {
                 AlbumDatabase.DATABASE_NAME)
                 //.addCallback(sRoomDatabaseCallback)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    AlbumRepository provideAlbumRepository(AlbumDao albumDao, LastFmApi lastFmAPI){
+        return new AlbumRepository(albumDao,lastFmAPI);
     }
 
     @Provides
