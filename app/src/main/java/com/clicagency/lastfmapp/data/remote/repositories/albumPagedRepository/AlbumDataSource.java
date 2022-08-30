@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@Singleton
+//@Singleton
 public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
 
     public static int TOTAL_PAGES = 0;

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
@@ -25,6 +26,9 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycleObserver {
 
     //creating livedata for PagedList and PagedKeyedDataSource
@@ -35,7 +39,8 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
     private LiveData<PagedList<Album>> albumPagedList;
     private LiveData<NetworkState> networkState;
 
-//    Artist artistModel = getAr;
+    SavedStateHandle state ;
+    Artist artistModel;
 
     @Inject
     AlbumDataSourceFactory albumDataSourceFactory;
@@ -44,10 +49,22 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
     AlbumRepository repository;
 
 
+//    SavedStateHandle savedStateHandle;
+
+    @Override
+    public void onCreate(@NonNull LifecycleOwner owner) {
+        DefaultLifecycleObserver.super.onCreate(owner);
+
+    }
+
     @Inject
     public AlbumsArtistViewModel() {
 
+//        this.savedStateHandle =savedStateHandle;
         Log.e("AlbumsArtistViewModel","Init()");
+//        this.artistModel = artistModel;
+//        Log.e("AlbumsArtistViewModel ",artistModel.getName());
+
         ///Test it for null
     }
 
@@ -55,7 +72,9 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
     public void onStart(@NonNull LifecycleOwner owner) {
         DefaultLifecycleObserver.super.onStart(owner);
         printMess();
+//        owner.
     }
+
 
     void printMess(){
        repository.printMessage("hello_from_repository");

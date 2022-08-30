@@ -23,7 +23,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@Singleton
+import dagger.hilt.android.lifecycle.HiltViewModel;
+//@Singleton
+@HiltViewModel
 public class SearchArtistViewModel extends ViewModel{
 
     private MutableLiveData<List<Artist>> mutableLiveDataArtists;

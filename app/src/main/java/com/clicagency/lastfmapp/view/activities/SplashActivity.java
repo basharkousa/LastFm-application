@@ -5,6 +5,9 @@ import android.os.Handler;
 import com.clicagency.lastfmapp.R;
 import com.clicagency.lastfmapp.view.base.BaseActivity;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class SplashActivity extends BaseActivity {
 
     @Override

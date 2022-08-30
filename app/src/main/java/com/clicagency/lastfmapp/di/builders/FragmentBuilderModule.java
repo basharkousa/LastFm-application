@@ -12,7 +12,7 @@ import dagger.android.ContributesAndroidInjector;
  * This builder provides android injector service to fragments
  *
  */
-@Module
+//@Module
 public abstract class FragmentBuilderModule {
 
     @SuppressWarnings("unused")

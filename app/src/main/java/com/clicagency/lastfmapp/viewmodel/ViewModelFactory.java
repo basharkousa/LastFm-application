@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 /**
  * ViewModel factory class which keeps all the viewmodel instances
  */
-@Singleton
+//@Singleton
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;

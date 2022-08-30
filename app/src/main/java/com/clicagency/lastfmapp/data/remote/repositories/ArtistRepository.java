@@ -3,6 +3,7 @@ package com.clicagency.lastfmapp.data.remote.repositories;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.clicagency.lastfmapp.data.local.dao.AlbumDao;
 import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.ArtistsResponse;
@@ -18,7 +19,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@Singleton
 public class ArtistRepository {
 
     private final LastFmApi lastFmAPI;

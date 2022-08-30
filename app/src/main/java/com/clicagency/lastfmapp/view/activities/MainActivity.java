@@ -18,7 +18,9 @@ import com.clicagency.lastfmapp.view.base.BaseActivity;
 import com.clicagency.lastfmapp.view.fragments.mainFragment.MainPageFragment;
 import com.clicagency.lastfmapp.view.fragments.searchArtistFragment.SearchArtistsFragment;
 
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     public MainPageFragment main_fragment;

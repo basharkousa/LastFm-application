@@ -19,6 +19,9 @@ import com.clicagency.lastfmapp.data.remote.repositories.AlbumRepository;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class MainPageViewModel extends ViewModel implements DefaultLifecycleObserver {
 
     private AlbumRepository mRepository;

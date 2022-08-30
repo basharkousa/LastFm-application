@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.clicagency.lastfmapp.R;
@@ -24,6 +25,9 @@ import com.clicagency.lastfmapp.view.listeners.IOnClick;
 import java.util.ArrayList;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, FragmentAlbumDetailsBinding> {
 
     private Album album;
@@ -43,6 +47,11 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
     @Override
     protected Class<AlbumDetailsViewModel> getViewModel() {
         return AlbumDetailsViewModel.class;
+    }
+
+    @Override
+    protected ViewModelProvider.Factory getViewModelFactory() {
+        return null;
     }
 
     @Override
@@ -128,6 +137,8 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
 
         }
     }
+
+
 
     private void observeAlbumDetails() {
         viewModel.getMutableLiveDataAlbum().observe(this, albumDetailsRespnse -> {

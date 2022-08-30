@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -21,6 +22,9 @@ import com.clicagency.lastfmapp.view.base.BaseFragment;
 import com.clicagency.lastfmapp.view.fragments.albumDetailsFragment.AlbumDetailFragment;
 import com.clicagency.lastfmapp.view.listeners.IOnAlbumClick;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMainPageBinding> {
 
     private final AlbumPagedAdapter adapter = new AlbumPagedAdapter(parent);
@@ -38,6 +42,12 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
         return MainPageViewModel.class;
     }
 
+
+    @Override
+    protected ViewModelProvider.Factory getViewModelFactory() {
+        return null;
+    }
+
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_main_page;
@@ -48,7 +58,7 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
         dataBinding.retryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadAlbums();
+//                loadAlbums();
             }
         });
         adapter.setClickListener(new IOnAlbumClick() {
@@ -74,22 +84,20 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
 
             }
         });
-
         dataBinding.rootLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 //load(false);
-                loadAlbums();
+//                viewModel.getmAlbumsPerPage();
             }
         });
-
     }
 
     @Override
     public void initFragment(Bundle savedInstanceState) {
         getLifecycle().addObserver(viewModel);
         initRecycler();
-        loadAlbums();
+        showLocallyAlbumsStateSection();
     }
 
 
@@ -106,7 +114,7 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
     }
 
 
-    private void loadAlbums() {
+    private void showLocallyAlbumsStateSection() {
         dataBinding.retryBtn.setVisibility(View.GONE);
         //dataBinding.rootLayout.setRefreshing(true);
 

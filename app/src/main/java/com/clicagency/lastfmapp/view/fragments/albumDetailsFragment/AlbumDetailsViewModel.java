@@ -7,7 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.AlbumDetailsRespnse;
@@ -19,6 +21,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class AlbumDetailsViewModel extends ViewModel {
 
     private MutableLiveData<AlbumDetailsRespnse> mutableLiveDataAlbum = new MutableLiveData<>();
@@ -29,12 +34,17 @@ public class AlbumDetailsViewModel extends ViewModel {
     private LiveData<List<Album>> mAllAlbums;
 
     @Inject
-    public AlbumDetailsViewModel(AlbumRepository albumRepository) {
+    public AlbumDetailsViewModel(AlbumRepository albumRepository, SavedStateHandle savedStateHandle) {
 
         this.albumRepository = albumRepository;
 
         this.mAllAlbums = albumRepository.getAllAlbums();
+
         Log.e("AlbumDetailsViewModel","Init()");
+
+        Album album = (Album) savedStateHandle.get("Album");
+        Log.e("AlbumDetailsAlbum",album.getName()+"BBBB");
+
     }
 
 

@@ -10,7 +10,7 @@ import com.clicagency.lastfmapp.data.local.entity.Album;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@Singleton
+//@Singleton
 public class AlbumDataSourceFactory extends DataSource.Factory {
 
     private MutableLiveData<AlbumDataSource> albumLiveDataSource = new MutableLiveData<>();

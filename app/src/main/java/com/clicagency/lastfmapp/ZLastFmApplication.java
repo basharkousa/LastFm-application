@@ -1,13 +1,19 @@
 package com.clicagency.lastfmapp;
 
 
-import com.clicagency.lastfmapp.di.components.AppComponent;
-import com.clicagency.lastfmapp.di.components.DaggerAppComponent;
+import android.app.Application;
+
+//import com.clicagency.lastfmapp.di.components.AppComponent;
+//import com.clicagency.lastfmapp.di.components.DaggerAppComponent;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
+import dagger.hilt.android.HiltAndroidApp;
 
-public class ZLastFmApplication extends DaggerApplication {
+@HiltAndroidApp
+public class ZLastFmApplication extends Application
+//        extends DaggerApplication
+{
 
     private static ZLastFmApplication sInstance;
     public static ZLastFmApplication getAppContext() {
@@ -24,11 +30,11 @@ public class ZLastFmApplication extends DaggerApplication {
         setInstance(this);
     }
 
-    @Override
-    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
-        appComponent.inject(this);
-        return appComponent;
-    }
+//    @Override
+//    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+//        AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
+//        appComponent.inject(this);
+//        return appComponent;
+//    }
 
 }

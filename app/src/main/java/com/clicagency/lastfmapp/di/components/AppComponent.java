@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.clicagency.lastfmapp.ZLastFmApplication;
 import com.clicagency.lastfmapp.di.builders.ActivityBuilderModule;
-import com.clicagency.lastfmapp.di.modules.AppModule;
+//import com.clicagency.lastfmapp.di.modules.AppModule;
 
 import javax.inject.Singleton;
 
@@ -21,8 +21,8 @@ import dagger.android.DaggerApplication;
  * https://medium.com/@iammert/new-android-injector-with-dagger-2-part-1-8baa60152abe
  */
 
-@Singleton
-@Component(modules = {AppModule.class, AndroidInjectionModule.class, ActivityBuilderModule.class})
+//@Singleton
+//@Component(modules = {AppModule.class, AndroidInjectionModule.class, ActivityBuilderModule.class})
 public interface AppComponent extends AndroidInjector<DaggerApplication> {
 
     void inject(ZLastFmApplication app);
@@ -30,11 +30,11 @@ public interface AppComponent extends AndroidInjector<DaggerApplication> {
     @Override
     void inject(DaggerApplication instance);
 
-    @Component.Builder
-    interface Builder {
-        @BindsInstance
-        Builder application(Application application);
-
-        AppComponent build();
-    }
+//    @Component.Builder
+//    interface Builder {
+//        @BindsInstance
+//        Builder application(Application application);
+//
+//        AppComponent build();
+//    }
 }

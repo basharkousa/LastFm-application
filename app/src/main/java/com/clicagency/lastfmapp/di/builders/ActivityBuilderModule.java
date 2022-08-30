@@ -11,7 +11,7 @@ import dagger.android.ContributesAndroidInjector;
  * The module which provides the android injection service to Activities.
  *
  */
-@Module
+//@Module
 public abstract class ActivityBuilderModule {
 
     @SuppressWarnings("unused")

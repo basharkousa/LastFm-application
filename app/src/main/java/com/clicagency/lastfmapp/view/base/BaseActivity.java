@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -31,9 +32,12 @@ import com.clicagency.lastfmapp.tools.DataMessage;
 import com.clicagency.lastfmapp.tools.ObjectMessage;
 
 import dagger.android.support.DaggerAppCompatActivity;
+import dagger.hilt.android.AndroidEntryPoint;
 
 
-public abstract class BaseActivity<D extends ViewDataBinding> extends DaggerAppCompatActivity {
+public abstract class BaseActivity<D extends ViewDataBinding> extends AppCompatActivity
+//        extends DaggerAppCompatActivity
+{
 
     @SuppressWarnings("unused")
     public D dataBinding;

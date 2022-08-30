@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -24,7 +25,9 @@ import com.clicagency.lastfmapp.view.base.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class SearchArtistsFragment extends BaseFragment<SearchArtistViewModel, FragmentArtistsSerarchBinding> {
 
 
@@ -44,6 +47,10 @@ public class SearchArtistsFragment extends BaseFragment<SearchArtistViewModel, F
         return SearchArtistViewModel.class;
     }
 
+    @Override
+    protected ViewModelProvider.Factory getViewModelFactory() {
+        return null;
+    }
 
     @Override
     protected int getLayoutRes() {

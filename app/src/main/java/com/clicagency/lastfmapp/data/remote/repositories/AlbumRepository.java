@@ -24,11 +24,15 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Provides;
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@Singleton
+//@Singleton
+//@EntryPoint
 public class AlbumRepository {
 
     //for api

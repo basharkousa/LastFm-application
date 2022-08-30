@@ -16,6 +16,7 @@ import com.clicagency.lastfmapp.data.local.dao.AlbumDao;
 import com.clicagency.lastfmapp.data.local.entity.Album;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 @Database(entities = {Album.class}, version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
@@ -24,6 +25,11 @@ public abstract class AlbumDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "lastfmdb";
 
     public abstract AlbumDao albumDao();
+
+//    class Callback @Inject constructor(
+//            private val database: Provider<ArticleDatabase>,
+//            @ApplicationScope private val applicationScope: CoroutineScope
+//    ) : RoomDatabase.Callback()
 
 //    public static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
 //        @Override

@@ -12,21 +12,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.clicagency.lastfmapp.view.fragments.albumsArtistFragment.AlbumsArtistViewModel;
+import com.clicagency.lastfmapp.viewmodel.ViewModelFactory;
+import com.clicagency.lastfmapp.viewmodel.ViewModelNewInstanceFactory;
 import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
+import dagger.hilt.android.AndroidEntryPoint;
 
+public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBinding> extends Fragment
+//        extends DaggerFragment
+{
 
-public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBinding> extends DaggerFragment {
-
-    @Inject
-    protected ViewModelProvider.Factory viewModelFactory;
+//    @Inject
+//    protected ViewModelProvider.Factory viewModelFactory;
 
     protected V viewModel;
 
@@ -39,6 +45,8 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
 
 
     protected abstract Class<V> getViewModel();
+
+    protected abstract ViewModelProvider.Factory getViewModelFactory();
 
     // use it when your project doesn't use Dagger2
     //protected abstract ViewModelProvider.Factory getViewModelFactory();
@@ -55,7 +63,14 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(getViewModel());
+
+//        if(getViewModelFactory()==null)
+//        viewModel = new ViewModelProvider(this,viewModelFactory).get(getViewModel());
+//        else
+//        viewModel = new ViewModelProvider(this, getViewModelFactory()).get(getViewModel());
+
+        viewModel = new ViewModelProvider(this).get(getViewModel());
+
     }
 
     @Nullable
@@ -68,13 +83,13 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 //        navController = Navigation.findNavController(view);
+        init(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        init(savedInstanceState);
     }
 
 
