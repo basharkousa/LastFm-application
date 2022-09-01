@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+
+        <variable
+            name="adapter"
+            type="com.clicagency.lastfmapp.view.adapters.AlbumsArtistAdapter" />
+
         <variable
             name="obj"
             type="com.clicagency.lastfmapp.data.local.entity.Album" />
@@ -13,6 +19,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/card_artist"
         android:theme="@style/LastFmCard"
+        android:onClick="@{()-> adapter.onClick(obj)}"
         android:foreground="?android:attr/selectableItemBackground"
         >
 

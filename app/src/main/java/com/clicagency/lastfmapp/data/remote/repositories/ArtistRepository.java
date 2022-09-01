@@ -67,13 +67,13 @@ public class ArtistRepository {
 //                    data.setValue(response.body().getArtists().getArtist());
                     listener.onSuccess(response.body());
                 } else {
-                    listener.onFailure(response.message());
+//                    listener.onFailure(response.message(),response.errorBody().);
                 }
             }
 
             @Override
             public void onFailure(Call<ArtistsResponse> call, Throwable t) {
-                listener.onFailure(call.toString());
+                listener.onFailure(call.toString(),t);
 
             }
         });

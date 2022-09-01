@@ -42,7 +42,8 @@ public class AlbumDetailsViewModel extends ViewModel {
 
         Log.e("AlbumDetailsViewModel","Init()");
 
-        Album album = (Album) savedStateHandle.get("Album");
+        Album album =  savedStateHandle.get("Key");
+        if(album != null)
         Log.e("AlbumDetailsAlbum",album.getName()+"BBBB");
 
     }
@@ -64,7 +65,7 @@ public class AlbumDetailsViewModel extends ViewModel {
                }
 
                @Override
-               public void onFailure(String message) {
+               public void onFailure(String message,Throwable t) {
                    errorMessageRecieved.setValue(message);
                }
            });

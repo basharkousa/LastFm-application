@@ -26,6 +26,7 @@ import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.Al
 import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSourceFactory;
 import com.clicagency.lastfmapp.view.listeners.IResponseListener;
 
+import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -156,6 +157,7 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
 
     public void getInitialAlbums(){
         page = 1;
+        albumsList = new AlbumsArtistRespnce();;
         albumsLiveData.postValue(new State<>(State.Status.LOADING,""));
         Log.e("Loadingg\n","");
         repository.getAlbumsArtistsRequest(page,limit,artistModel,new IResponseListener<AlbumsArtistRespnce>() {
@@ -167,15 +169,17 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
             }
 
             @Override
-            public void onFailure(String message) {
+            public void onFailure(String message,Throwable t) {
                 albumsLiveData.postValue(new State<>(State.Status.FAILED,""));
-                Log.e("FailedBB","");
+                Log.e("FailedBB",message);
+                t.printStackTrace();
             }
         });
     }
     public synchronized void getNewPage(){
-        Log.e("getNewPage",page+"");
+
         if(!isLoading){
+            Log.e("getNewPage",page+"");
             page++;
             paginationLiveData.postValue(new State<>(State.Status.LOADING,""));
             isLoading = !isLoading;
@@ -183,17 +187,17 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
                 @Override
                 public void onSuccess(AlbumsArtistRespnce data) {
                     albumsList.getTopalbums().getAlbum().addAll(data.getTopalbums().getAlbum());
-//                    albumsLiveData.postValue(new State<>(State.Status.SUCCESS,albumsList));
+                    albumsLiveData.postValue(new State<>(State.Status.SUCCESS,albumsList));
                     paginationLiveData.postValue(new State<>(State.Status.SUCCESS,albumsList));
                     isLoading = !isLoading;
                 }
 
                 @Override
-                public void onFailure(String message) {
+                public void onFailure(String message,Throwable t) {
                     paginationLiveData.postValue(new State<>(State.Status.FAILED,""));
                     page--;
                     isLoading = !isLoading;
-                    Log.e("FailedBB","");
+                    Log.e("FailedBB",message);
                 }
             });
 

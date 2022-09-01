@@ -162,15 +162,16 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
     }
 
     private void observeAlbums() {
+        if(adapter == null)
         adapter = new AlbumsArtistAdapter((album) -> {
 //            AlbumsArtistFragment albumsArtistFragment = new AlbumsArtistFragment();
 //            if (artist != null)
 //                if (artist.getName() != null)
 //                    albumsArtistFragment.setArtist(artist.getName());
             Bundle bundle = new Bundle();
-            bundle.putSerializable("key",album);
+            bundle.putSerializable("Key",album);
 //            parent.show_fragment2(albumsArtistFragment, false);
-//            parent.navController.navigate(R.id.albumsArtistFragment,bundle);
+            parent.navController.navigate(R.id.albumDetailsFragment,bundle);
         });
         viewModel.getAlbumsLiveData().observe(this, new Observer<State<AlbumsArtistRespnce>>() {
             @Override
@@ -192,14 +193,15 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
     }
 
     private void buildContent(AlbumsArtistRespnce data) {
-
+        BasicTools.logMessage("h","buildContent");
         dataBinding.rootLayout.setRefreshing(false);
-        dataBinding.recycler.setVisibility(View.VISIBLE);
-        if (data.getTopalbums().getAlbum().size() == 0)
-            dataBinding.emptyTv.setVisibility(View.VISIBLE);
+//        dataBinding.recycler.setVisibility(View.VISIBLE);
+//        if (data.getTopalbums().getAlbum().size() == 0)
+//            dataBinding.emptyTv.setVisibility(View.VISIBLE);
 //        artists.addAll(data.getArtists().getArtist());
 
         adapter.addItems(data.getTopalbums().getAlbum());
+        if(dataBinding.recycler.getAdapter() == null)
         dataBinding.recycler.setAdapter(adapter);
 //        adapter.setArtistsList(data.getArtists().getArtist());
         dataBinding.rootLayout.setRefreshing(false);

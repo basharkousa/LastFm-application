@@ -48,9 +48,9 @@ public class SearchArtistViewModel extends ViewModel{
             }
 
             @Override
-            public void onFailure(String message) {
+            public void onFailure(String message,Throwable t) {
                 mutableLiveDataArtistsResponse.postValue(new State<>(State.Status.FAILED,""));
-                Log.e("FailedBB","");
+                Log.e("FailedBB",message);
             }
         });
 

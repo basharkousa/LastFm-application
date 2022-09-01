@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.clicagency.lastfmapp.view.base.BaseAdapter;
+import com.clicagency.lastfmapp.view.base.BasePagedAdapter;
 import com.clicagency.lastfmapp.view.listeners.OnBottomReached;
 
 import java.util.Map;
@@ -149,6 +150,33 @@ public class BasicTools {
     }
 
     public static void setBottomListener(final LinearLayoutManager layoutManager, @NonNull RecyclerView recycler, final BaseAdapter adapter,
+                                         final OnBottomReached listener) {
+        RecyclerView.OnScrollListener scroll_listener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    int visible_items = layoutManager.getChildCount();
+                    int total_items = layoutManager.getItemCount();
+                    int past_visible_items = layoutManager.findFirstVisibleItemPosition();
+                    if ((visible_items + past_visible_items) >= total_items) {
+                        listener.onReachBottom();
+                    } else {
+                        listener.onScrolledUp();
+                    }
+                } else {
+                    listener.onScrolledUp();
+                }
+            }
+        };
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            recycler.clearOnScrollListeners();
+            recycler.addOnScrollListener(scroll_listener);
+        } else {
+            recycler.setOnScrollListener(scroll_listener);
+        }
+    }
+    public static void setBottomListener(final LinearLayoutManager layoutManager, @NonNull RecyclerView recycler, final BasePagedAdapter adapter,
                                          final OnBottomReached listener) {
         RecyclerView.OnScrollListener scroll_listener = new RecyclerView.OnScrollListener() {
             @Override

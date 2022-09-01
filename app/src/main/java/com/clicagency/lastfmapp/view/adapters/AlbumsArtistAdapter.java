@@ -1,10 +1,14 @@
 package com.clicagency.lastfmapp.view.adapters;
 
 import android.os.Handler;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.clicagency.lastfmapp.R;
 import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.view.base.BaseAdapter;
+import com.clicagency.lastfmapp.view.base.BasePagedAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +17,12 @@ import java.util.List;
 public class AlbumsArtistAdapter extends BaseAdapter<Album> {
 
     private final List<Album> albums = new ArrayList<>();
-    private MyArtistAdapter.IOnClick mOnItemClickListener;
+//    private IOnClick mOnItemClickListener;
 
-    public AlbumsArtistAdapter(MyArtistAdapter.IOnClick mOnItemClickListener) {
+    public AlbumsArtistAdapter(@NonNull OnItemClickListener<Album> mOnItemClickListener) {
 //        this.albums = albums;
-        this.mOnItemClickListener = mOnItemClickListener;
+        super(mOnItemClickListener);
+//        this.mOnItemClickListener = mOnItemClickListener;
     }
 
     @Override
@@ -36,8 +41,14 @@ public class AlbumsArtistAdapter extends BaseAdapter<Album> {
     }
 
     public void addItems(List<Album> newItems) {
-       albums.addAll(newItems);
+       albums.addAll(albums.size(),newItems);
+       notifyDataSetChanged();
     }
+
+//    public void onClick(Album album){
+//        Log.e("'AdapterClick'","artist.getName()");
+//        mOnItemClickListener.itemClicked(album);
+//    }
 
 //    public void addItems(final List<Album> newItems, final LinearLayoutManager layoutManager, final RecyclerView recyclerView){
 //        Runnable runnable = new Runnable() {

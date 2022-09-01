@@ -13,26 +13,26 @@ import java.util.List;
 public class MyArtistAdapter extends BaseAdapter<Artist> {
 
     private final List<Artist> data;
-    private IOnClick mOnItemClickListener;
+//    private IOnClick mOnItemClickListener;
 
 
-    public MyArtistAdapter(List<Artist> data,IOnClick mOnItemClickListener) {
-        super();
+    public MyArtistAdapter(List<Artist> data,OnItemClickListener<Artist> mOnItemClickListener) {
+        super(mOnItemClickListener);
         this.data = data;
-        this.mOnItemClickListener = mOnItemClickListener;
+//        this.mOnItemClickListener = mOnItemClickListener;
     }
 
     public interface IOnClick {
         void itemClicked(Artist artist);
     }
 
-    public void onClick(Artist artist){
-        Log.e("'AdapterClick'","artist.getName()");
-        mOnItemClickListener.itemClicked(artist);
-    }
+//    public void onClick(Artist artist){
+//        Log.e("'AdapterClick'","artist.getName()");
+////        mOnItemClickListener.itemClicked(artist);
+//    }
 
     public void setClickListener(IOnClick itemClickListener) {
-        mOnItemClickListener = itemClickListener;
+//        mOnItemClickListener = itemClickListener;
     }
 
     @NonNull

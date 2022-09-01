@@ -1,7 +1,6 @@
 package com.clicagency.lastfmapp.view.base;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,62 +14,44 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.clicagency.lastfmapp.data.local.entity.Album;
-import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
 
-public abstract class BaseAdapter<T>
-        extends RecyclerView.Adapter<BaseAdapter<T>.MyViewHolder>
-//        extends ListAdapter<T, BaseAdapter<T>.MyViewHolder>
-        {
+public abstract class BasePagedAdapter<T> extends PagedListAdapter<T, BasePagedAdapter<T>.MyViewHolder>
+{
+    public BasePagedAdapter() {
+        super(new DiffUtil.ItemCallback<T>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull T oldItem,@NonNull T newItem) {
+//                    return oldItem.getMbid() == newItem.getMbid();
+                return oldItem.equals(newItem);
+            }
 
-//    BaseAdapter(OnItemClickListener<T> itemClickListener) {
-//        this.itemClickListener = itemClickListener;
-//    }
-
-    public BaseAdapter(OnItemClickListener<T> onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
-//        super(new DiffUtil.ItemCallback<T>() {
-//            @Override
-//            public boolean areItemsTheSame(T oldItem, T newItem) {
-////                    return oldItem.getMbid() == newItem.getMbid();
-//                return oldItem.equals(newItem);
-//            }
-//
-//            @SuppressLint("DiffUtilEquals")
-//            @Override
-//            public boolean areContentsTheSame(T oldItem, T newItem) {
-//                return oldItem.equals(newItem);
-//            }
-//        });
+            @SuppressLint("DiffUtilEquals")
+            @Override
+            public boolean areContentsTheSame(@NonNull T oldItem,@NonNull T newItem) {
+                return oldItem.equals(newItem);
+            }
+        });
     }
 
     public interface OnItemClickListener<T> {
         void onItemClick(T item);
     }
-
-    private OnItemClickListener<T> mOnItemClickListener;
-
-     public  void onClick(T item){
-                Log.e("'AdapterClick'","artist.getName()");
-                mOnItemClickListener.onItemClick(item);
-            }
-
 //    private final OnItemClickListener<T> itemClickListener;
 
     @NonNull
-    public BaseAdapter<T>.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public BasePagedAdapter<T>.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                           int viewType) {
         LayoutInflater layoutInflater =
                 LayoutInflater.from(parent.getContext());
         ViewDataBinding binding = DataBindingUtil.inflate(
                 layoutInflater, viewType, parent, false);
-        BaseAdapter<T>.MyViewHolder viewHolder = new BaseAdapter<T>.MyViewHolder(binding);
+        BasePagedAdapter<T>.MyViewHolder viewHolder = new BasePagedAdapter<T>.MyViewHolder(binding);
         viewHolder.bind(this);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(BaseAdapter<T>.MyViewHolder holder,
+    public void onBindViewHolder(BasePagedAdapter<T>.MyViewHolder holder,
                                  int position) {
         final T item = getItemForPosition(position);
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +101,7 @@ public abstract class BaseAdapter<T>
             binding.executePendingBindings();
         }
 
-        public void bind(BaseAdapter<T> adapter) {
+        public void bind(BasePagedAdapter<T> adapter) {
             binding.setVariable(BR.adapter, adapter);
             binding.executePendingBindings();
         }

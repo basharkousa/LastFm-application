@@ -70,13 +70,13 @@ public class AlbumRepository {
 
                 } else {
 
-                    listener.onFailure("body error");
+//                    listener.onFailure("body error",t);
                 }
             }
 
             @Override
-            public void onFailure(Call<AlbumDetailsRespnse> call, Throwable t) {
-                listener.onFailure(t.getMessage());
+            public void onFailure(@NonNull Call<AlbumDetailsRespnse> call, @NonNull Throwable t) {
+                listener.onFailure(t.getMessage(),t);
 
             }
         });
@@ -119,13 +119,13 @@ public class AlbumRepository {
 //                    data.setValue(response.body().getArtists().getArtist());
                     listener.onSuccess(response.body());
                 } else {
-                    listener.onFailure(response.message());
+//                    listener.onFailure(response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<AlbumsArtistRespnce> call, Throwable t) {
-                listener.onFailure(call.toString());
+                listener.onFailure(call.toString(),t);
 
             }
         });

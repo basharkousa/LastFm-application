@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.clicagency.lastfmapp.R;
 import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.databinding.CardAlbumBinding;
+import com.clicagency.lastfmapp.view.base.BaseAdapter;
 import com.clicagency.lastfmapp.view.listeners.IOnAlbumClick;
 
 public class AlbumPagedAdapter extends PagedListAdapter<Album,AlbumPagedAdapter.AlbumViewHolder> {
@@ -22,6 +23,7 @@ public class AlbumPagedAdapter extends PagedListAdapter<Album,AlbumPagedAdapter.
 
     private Context mCtx;
     private IOnAlbumClick mOnItemClickListener;
+
 
    public AlbumPagedAdapter(Context mCtx) {
         super(DIFF_CALLBACK);
@@ -89,6 +91,7 @@ public class AlbumPagedAdapter extends PagedListAdapter<Album,AlbumPagedAdapter.
     public void setClickListener(IOnAlbumClick itemClickListener) {
         mOnItemClickListener = itemClickListener;
     }
+
 
 
 }
