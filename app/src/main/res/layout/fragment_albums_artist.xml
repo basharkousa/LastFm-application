@@ -4,16 +4,17 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="artist"
             type="com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist" />
 
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.clicagency.lastfmapp.view.fragments.albumsArtistFragment.AlbumsArtistViewModel" />-->
+        <variable
+            name="viewModel"
+            type="com.clicagency.lastfmapp.view.fragments.albumsArtistFragment.AlbumsArtistViewModel" />
 
-
+        <variable
+            name="status"
+            type="com.clicagency.lastfmapp.data.remote.models.State.Status" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,7 +27,7 @@
         <include
             android:id="@+id/appBar"
             layout="@layout/app_bar_albums_artist"
-            bind:artist="@{artist}"
+            bind:artist="@{viewModel.artistModel}"
             />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -34,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
+            android:layout_marginBottom="@dimen/bottom_navigation_height"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -48,21 +50,28 @@
                     android:layout_height="0dp"
                     android:layout_weight="100">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler"
+                    <FrameLayout
+                        android:visibility="@{viewModel.albumsLiveData.Status==status.SUCCESS}"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="vertical" />
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/empty_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/nothing_to_show"
-                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                        android:textColor="@color/light_gray"
-                        android:visibility="gone" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{viewModel.albumsLiveData.Status==status.SUCCESS}"
+                            android:scrollbars="vertical" />
+                        <TextView
+                            android:id="@+id/empty_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/nothing_to_show"
+                            android:visibility="@{viewModel.albumsLiveData.data.topalbums.album.size() == 0}"
+                            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                            android:textColor="@color/light_gray"
+                            />
+                    </FrameLayout>
 
                     <ImageView
                         android:id="@+id/retry_btn"
@@ -76,7 +85,8 @@
                         android:scaleType="centerInside"
                         android:src="@drawable/retry"
                         android:theme="@style/LastFmCard"
-                        android:visibility="gone" />
+                        android:visibility="@{viewModel.albumsLiveData.Status == status.FAILED}"
+                        />
                 </FrameLayout>
 
                 <ProgressBar
@@ -87,7 +97,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/d0_4"
                     android:layout_marginBottom="@dimen/d0_4"
-                    android:visibility="gone" />
+                    android:visibility="@{viewModel.paginationLiveData.status == status.LOADING}" />
 
             </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

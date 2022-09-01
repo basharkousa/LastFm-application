@@ -13,10 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.clicagency.lastfmapp.BR;
 import com.clicagency.lastfmapp.view.fragments.albumsArtistFragment.AlbumsArtistViewModel;
 import com.clicagency.lastfmapp.viewmodel.ViewModelFactory;
 import com.clicagency.lastfmapp.viewmodel.ViewModelNewInstanceFactory;
@@ -77,6 +79,8 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         dataBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+        dataBinding.setVariable(BR.viewModel,viewModel);
+        dataBinding.setLifecycleOwner(this);
         return dataBinding.getRoot();
     }
 

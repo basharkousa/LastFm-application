@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
@@ -16,10 +17,14 @@ import androidx.paging.PagedList;
 
 import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.data.remote.models.NetworkState;
+import com.clicagency.lastfmapp.data.remote.models.State;
+import com.clicagency.lastfmapp.data.remote.models.albums.albumsArtist.AlbumsArtistRespnce;
 import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
+import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.ArtistsResponse;
 import com.clicagency.lastfmapp.data.remote.repositories.AlbumRepository;
 import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSource;
 import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSourceFactory;
+import com.clicagency.lastfmapp.view.listeners.IResponseListener;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -40,12 +45,38 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
     private LiveData<NetworkState> networkState;
 
     SavedStateHandle state ;
-    Artist artistModel;
+    public Artist artistModel;
+
+
+//    ScrollController scrollController = ScrollController();
+    boolean isLoading = false;
+    int page = 0 ;
+    int limit = 10;
+    public AlbumsArtistRespnce albumsList = new AlbumsArtistRespnce();
+
+    public MutableLiveData<State<AlbumsArtistRespnce>> getAlbumsLiveData() {
+        return albumsLiveData;
+    }
+
+    public void setAlbumsLiveData(MutableLiveData<State<AlbumsArtistRespnce>> albumsLiveData) {
+        this.albumsLiveData = albumsLiveData;
+    }
+
+    public MutableLiveData<State<AlbumsArtistRespnce>> getPaginationLiveData() {
+        return paginationLiveData;
+    }
+
+    public void setPaginationLiveData(MutableLiveData<State<AlbumsArtistRespnce>> paginationLiveData) {
+        this.paginationLiveData = paginationLiveData;
+    }
+
+    MutableLiveData<State<AlbumsArtistRespnce>> albumsLiveData = new MutableLiveData<>();
+    MutableLiveData<State<AlbumsArtistRespnce>> paginationLiveData = new MutableLiveData<>();
 
     @Inject
     AlbumDataSourceFactory albumDataSourceFactory;
 
-    @Inject
+//    @Inject
     AlbumRepository repository;
 
 
@@ -58,13 +89,33 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
     }
 
     @Inject
-    public AlbumsArtistViewModel() {
+    public AlbumsArtistViewModel(AlbumRepository albumRepository, SavedStateHandle savedStateHandle) {
 
-//        this.savedStateHandle =savedStateHandle;
+        this.repository = albumRepository;
+        artistModel = (Artist) savedStateHandle.get("key");
         Log.e("AlbumsArtistViewModel","Init()");
+        Log.e("AlbumsArtisSavedSta",artistModel.getName());
+
+
+//        scrollController.addListener(() {
+//            if (scrollController.position.maxScrollExtent ==
+//                    scrollController.position.pixels) {
+//                print("End scrolling");
+//                // if (!isLoading) {
+//                //   print("end_scrolling");
+//                //   isLoading = !isLoading;
+//                //   widget.homePageBloc.getNewPage();
+//                // }
+//                getNewPage();
+//            }
+//        });
+//        getAllCoins();
+
+        getInitialAlbums();
+
 //        this.artistModel = artistModel;
 //        Log.e("AlbumsArtistViewModel ",artistModel.getName());
-
+//        getAlbums();
         ///Test it for null
     }
 
@@ -81,12 +132,12 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
 
    }
 
-    public void getAlbums(String artistName) {
+    public void getAlbums() {
         executor = Executors.newFixedThreadPool(5);
         //getting our data source factory
         //after dagger2
         //albumDataSourceFactory = new AlbumDataSourceFactory(artistName);
-        albumDataSourceFactory.setArtistName(artistName);
+        albumDataSourceFactory.setArtistName(artistModel.getName());
 
         networkState = Transformations.switchMap(albumDataSourceFactory.getItemLiveDataSource(),
                 dataSource -> dataSource.getNetworkState());
@@ -101,6 +152,52 @@ public class AlbumsArtistViewModel extends ViewModel implements DefaultLifecycle
         albumPagedList = (new LivePagedListBuilder(albumDataSourceFactory, pagedListConfig))
                 .setFetchExecutor(executor)
                 .build();
+    }
+
+    public void getInitialAlbums(){
+        page = 1;
+        albumsLiveData.postValue(new State<>(State.Status.LOADING,""));
+        Log.e("Loadingg\n","");
+        repository.getAlbumsArtistsRequest(page,limit,artistModel,new IResponseListener<AlbumsArtistRespnce>() {
+            @Override
+            public void onSuccess(AlbumsArtistRespnce data) {
+                albumsLiveData.postValue(new State<>(State.Status.SUCCESS,data));
+                albumsList = data;
+                Log.e("Responssss","data.getArtists().getArtist().get(0).getName()");
+            }
+
+            @Override
+            public void onFailure(String message) {
+                albumsLiveData.postValue(new State<>(State.Status.FAILED,""));
+                Log.e("FailedBB","");
+            }
+        });
+    }
+    public synchronized void getNewPage(){
+        Log.e("getNewPage",page+"");
+        if(!isLoading){
+            page++;
+            paginationLiveData.postValue(new State<>(State.Status.LOADING,""));
+            isLoading = !isLoading;
+            repository.getAlbumsArtistsRequest(page,limit,artistModel,new IResponseListener<AlbumsArtistRespnce>() {
+                @Override
+                public void onSuccess(AlbumsArtistRespnce data) {
+                    albumsList.getTopalbums().getAlbum().addAll(data.getTopalbums().getAlbum());
+//                    albumsLiveData.postValue(new State<>(State.Status.SUCCESS,albumsList));
+                    paginationLiveData.postValue(new State<>(State.Status.SUCCESS,albumsList));
+                    isLoading = !isLoading;
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    paginationLiveData.postValue(new State<>(State.Status.FAILED,""));
+                    page--;
+                    isLoading = !isLoading;
+                    Log.e("FailedBB","");
+                }
+            });
+
+        }
     }
 
 

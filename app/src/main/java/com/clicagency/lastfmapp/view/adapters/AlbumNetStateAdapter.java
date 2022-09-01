@@ -129,7 +129,7 @@ public class AlbumNetStateAdapter extends PagedListAdapter<Album, RecyclerView.V
         public void bindTo(Album album, int position) {
             this.album = album;
             this.position = position;
-            cardAlbumBinding.setAlbumModel(album);
+            cardAlbumBinding.setObj(album);
 
             cardAlbumBinding.cardArtist.setOnClickListener(new View.OnClickListener() {
                 @Override

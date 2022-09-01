@@ -173,4 +173,7 @@ public class Artist extends BaseObservable implements Serializable
 //        mOnItemClickListener.itemClicked(artist);
     }
 
+    public String getArtistNameWIthPosessiveS(){
+        return getName()+"'s";
+    }
 }

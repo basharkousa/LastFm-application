@@ -38,12 +38,12 @@ public class AlbumPagedAdapter extends PagedListAdapter<Album,AlbumPagedAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final AlbumViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final AlbumViewHolder holder, int position) {
         final Album item = getItem(position);
 
         if (item != null) {
 
-            holder.cardAlbumBinding.setAlbumModel(item);
+            holder.cardAlbumBinding.setObj(item);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.cardAlbumBinding.ivAlbum.setTransitionName("transition" + position);

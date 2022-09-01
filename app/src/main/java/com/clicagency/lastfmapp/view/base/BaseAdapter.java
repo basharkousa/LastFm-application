@@ -1,5 +1,6 @@
 package com.clicagency.lastfmapp.view.base;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +9,36 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.clicagency.lastfmapp.data.local.entity.Album;
+
 public abstract class BaseAdapter<T>
-        extends RecyclerView.Adapter<BaseAdapter<T>.MyViewHolder> {
+        extends RecyclerView.Adapter<BaseAdapter<T>.MyViewHolder>
+//        extends ListAdapter<T, BaseAdapter<T>.MyViewHolder>
+        {
 
 //    BaseAdapter(OnItemClickListener<T> itemClickListener) {
 //        this.itemClickListener = itemClickListener;
 //    }
 
     public BaseAdapter() {
-
+//        super(new DiffUtil.ItemCallback<T>() {
+//            @Override
+//            public boolean areItemsTheSame(T oldItem, T newItem) {
+////                    return oldItem.getMbid() == newItem.getMbid();
+//                return oldItem.equals(newItem);
+//            }
+//
+//            @SuppressLint("DiffUtilEquals")
+//            @Override
+//            public boolean areContentsTheSame(T oldItem, T newItem) {
+//                return oldItem.equals(newItem);
+//            }
+//        });
     }
 
     public interface OnItemClickListener<T> {
@@ -56,6 +76,21 @@ public abstract class BaseAdapter<T>
         return getLayoutIdForPosition(position);
     }
 
+    private final DiffUtil.ItemCallback<T> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<T>() {
+                @Override
+                public boolean areItemsTheSame(T oldItem, T newItem) {
+//                    return oldItem.getMbid() == newItem.getMbid();
+                    return oldItem.equals(newItem);
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(T oldItem, T newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
+
     protected abstract T getItemForPosition(int position);
 
     protected abstract int getLayoutIdForPosition(int position);
@@ -70,9 +105,11 @@ public abstract class BaseAdapter<T>
 
         public void bind(T item) {
             binding.setVariable(BR.obj, item);
+//            binding.setVariable(BR.viewModel,);
             binding.executePendingBindings();
         }
-        public void bind(BaseAdapter<T> adapter){
+
+        public void bind(BaseAdapter<T> adapter) {
             binding.setVariable(BR.adapter, adapter);
             binding.executePendingBindings();
         }

@@ -11,6 +11,8 @@ import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.remote.RequestInterceptor;
 import com.clicagency.lastfmapp.data.remote.repositories.AlbumRepository;
 import com.clicagency.lastfmapp.data.remote.repositories.ArtistRepository;
+import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSource;
+import com.clicagency.lastfmapp.data.remote.repositories.albumPagedRepository.AlbumDataSourceFactory;
 import com.clicagency.lastfmapp.tools.Constants;
 
 import java.lang.annotation.Retention;
@@ -84,6 +86,20 @@ public class AppModule {
         return new ArtistRepository(lastFmAPI);
     }
 
+    @Provides
+    @Singleton
+    AlbumDataSource provideAlbumDataSource(AlbumDao albumDao, LastFmApi lastFmAPI){
+        return new AlbumDataSource();
+    }
+
+    @Provides
+    @Singleton
+    AlbumDataSourceFactory provideAlbumDataSourceFactory(AlbumDao albumDao, LastFmApi lastFmAPI){
+        return new AlbumDataSourceFactory();
+    }
+
+
+//
 
 //    @Provides
 ////    @Singleton

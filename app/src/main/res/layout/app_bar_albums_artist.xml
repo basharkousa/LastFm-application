@@ -49,7 +49,7 @@
                         android:ellipsize="marquee"
                         android:gravity="center"
                         android:padding="@dimen/d0_2"
-                        android:text="@{artist.name}"
+                        android:text="@{artist.artistNameWIthPosessiveS}"
                         android:textColor="@color/primaryBlack"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />

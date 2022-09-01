@@ -12,6 +12,9 @@ import com.clicagency.lastfmapp.data.local.dao.AlbumDao;
 import com.clicagency.lastfmapp.data.local.entity.Album;
 import com.clicagency.lastfmapp.data.remote.LastFmApi;
 import com.clicagency.lastfmapp.data.remote.models.albums.albumDetails.AlbumDetailsRespnse;
+import com.clicagency.lastfmapp.data.remote.models.albums.albumsArtist.AlbumsArtistRespnce;
+import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.Artist;
+import com.clicagency.lastfmapp.data.remote.models.artists.artistsResponse.ArtistsResponse;
 import com.clicagency.lastfmapp.tools.AppExecutors;
 import com.clicagency.lastfmapp.tools.Constants;
 import com.clicagency.lastfmapp.view.listeners.IResponseListener;
@@ -100,6 +103,35 @@ public class AlbumRepository {
 
         return albums;
     }
+
+    public AlbumsArtistRespnce getAlbumsArtistsRequest(int page, int limit, Artist artist, IResponseListener<AlbumsArtistRespnce> listener) {
+
+        final AlbumsArtistRespnce data = new AlbumsArtistRespnce();
+
+        Call<AlbumsArtistRespnce> callBack = lastFmAPI.getAlbumsArti(artist.getName() + "", page + "",
+                limit + "");
+        callBack.enqueue(new Callback<AlbumsArtistRespnce>() {
+
+            @Override
+            public void onResponse(@NonNull Call<AlbumsArtistRespnce> call, @NonNull Response<AlbumsArtistRespnce> response) {
+
+                if (response.isSuccessful()) {
+//                    data.setValue(response.body().getArtists().getArtist());
+                    listener.onSuccess(response.body());
+                } else {
+                    listener.onFailure(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AlbumsArtistRespnce> call, Throwable t) {
+                listener.onFailure(call.toString());
+
+            }
+        });
+        return data;
+    }
+
 
     public void insert(final Album album) {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {

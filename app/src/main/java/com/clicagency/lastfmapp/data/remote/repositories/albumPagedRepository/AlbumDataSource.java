@@ -12,12 +12,13 @@ import com.clicagency.lastfmapp.data.remote.models.albums.albumsArtist.AlbumsArt
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import dagger.Provides;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//@Singleton
+
 public class AlbumDataSource extends PageKeyedDataSource<Integer, Album> {
 
     public static int TOTAL_PAGES = 0;

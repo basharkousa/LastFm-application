@@ -27,10 +27,20 @@ final class BindingAdapters {
         textView.setText(BasicTools.formatSeconds(durationInt));
     }
 
-    @BindingAdapter("app:goneUnless")
-    public static void goneUnless(View view, Boolean visible) {
+//    @BindingAdapter("app:goneUnless")
+//    public static void goneUnless(View view, Boolean visible) {
 //        view.visibility = visible ? View.VISIBLE : View.GONE;
+//    }
+
+    @BindingAdapter("android:visibility")
+    public static void setVisibility(View view,Boolean visible) {
+        if (visible) {
+            view.setVisibility( View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
+        }
     }
+
 
 
 }
