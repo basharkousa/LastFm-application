@@ -37,6 +37,7 @@
                 app:navGraph = "@navigation/navigation_graph"
                 app:defaultNavHost = "true"
                 >
+<!--           app:defaultNavHost = "true" for back press button-->
 
             </androidx.fragment.app.FragmentContainerView>
 
@@ -46,8 +47,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:visibility="gone"
                 android:layout_gravity="bottom"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/tabs_white"
+                app:itemIconTint="@drawable/bottom_navigation_selector"
+                app:itemTextColor="@drawable/bottom_navigation_selector"
+                app:menu="@menu/bottom_navigation_menu" />
 
         </FrameLayout>
 

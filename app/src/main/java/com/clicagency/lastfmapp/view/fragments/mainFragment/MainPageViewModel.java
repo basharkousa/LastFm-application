@@ -34,7 +34,7 @@ public class MainPageViewModel extends ViewModel implements DefaultLifecycleObse
         mAlbumsBypage = mRepository.getAllAlbumsPerPage();
 //        mRepository.printMessage("hello from repository");
 
-        Log.e("MainPageViewModel","Init()");
+        Log.e("MainPageViewModel","MainPageViewModel_Init()");
 
     }
 

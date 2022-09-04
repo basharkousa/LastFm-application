@@ -9,13 +9,21 @@
       android:id="@+id/mainPageFragment"
       android:name="com.clicagency.lastfmapp.view.fragments.mainFragment.MainPageFragment"
       android:label="main_page_fragment"
-      tools:layout="@layout/fragment_main_page"/>
+      tools:layout="@layout/fragment_main_page">
+        <action
+            android:id="@+id/action_mainPageFragment_to_albumDetailsFragment"
+            app:destination="@id/albumDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/searchArtistFragment"
         android:name="com.clicagency.lastfmapp.view.fragments.searchArtistFragment.SearchArtistsFragment"
         android:label="search_artist_page_fragment"
         tools:layout="@layout/fragment_artists_serarch">
+        <action
+            android:id="@+id/action_searchArtistFragment_to_albumsArtistFragment"
+            app:destination="@id/albumsArtistFragment"
+            />
     </fragment>
 
     <fragment
@@ -23,6 +31,9 @@
         android:name="com.clicagency.lastfmapp.view.fragments.albumsArtistFragment.AlbumsArtistFragment"
         android:label="albums_artist_page_fragment"
         tools:layout="@layout/fragment_albums_artist">
+        <action
+            android:id="@+id/action_albumsArtistFragment_to_albumDetailsFragment"
+            app:destination="@id/albumDetailsFragment" />
     </fragment>
 
 
