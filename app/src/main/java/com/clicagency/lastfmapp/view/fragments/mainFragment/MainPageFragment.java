@@ -18,6 +18,7 @@ import com.clicagency.lastfmapp.databinding.FragmentMainPageBinding;
 import com.clicagency.lastfmapp.tools.BasicTools;
 import com.clicagency.lastfmapp.tools.SpacesItemDecoration;
 import com.clicagency.lastfmapp.view.adapters.AlbumPagedAdapter;
+import com.clicagency.lastfmapp.view.base.BaseAdapter;
 import com.clicagency.lastfmapp.view.base.BaseFragment;
 import com.clicagency.lastfmapp.view.fragments.albumDetailsFragment.AlbumDetailFragment;
 import com.clicagency.lastfmapp.view.listeners.IOnAlbumClick;
@@ -27,7 +28,28 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMainPageBinding> {
 
-    private final AlbumPagedAdapter adapter = new AlbumPagedAdapter(parent);
+    private final AlbumPagedAdapter adapter = new AlbumPagedAdapter(parent, new BaseAdapter.OnItemClickListener<Album>() {
+        @Override
+        public void onItemClick(Album album) {
+            if (BasicTools.isConnected(parent)) {
+//
+//                  albumDetailFragment.setArguments(args);
+//                  parent.show_fragment(albumDetailFragment, view, "transition" + position);
+                Bundle args = new Bundle();
+//                args.putString("transitionName", "transition" + position);
+                args.putSerializable("key",album);
+//                    albumDetailFragment.setArguments(args);
+//                    parent.show_fragment(albumDetailFragment, view, "transition" + position);
+                parent.navController.navigate(R.id.action_mainPageFragment_to_albumDetailsFragment,args);
+
+                //parent.show_fragment2(albumDetailFragment,false);
+            } else {
+                parent.showToastMessageShort(R.string.failed_to_connect);
+            }
+
+
+        }
+    });
     private GridLayoutManager layout_manager;
 
     public static MainPageFragment newInstance() {
@@ -74,7 +96,7 @@ public class MainPageFragment extends BaseFragment<MainPageViewModel, FragmentMa
                     args.putSerializable("Album",album);
 //                    albumDetailFragment.setArguments(args);
 //                    parent.show_fragment(albumDetailFragment, view, "transition" + position);
-                    parent.navController.navigate(R.id.albumDetailsFragment,args);
+                    parent.navController.navigate(R.id.action_mainPageFragment_to_albumDetailsFragment,args);
 
                     //parent.show_fragment2(albumDetailFragment,false);
                 } else {

@@ -23,7 +23,7 @@ final class BindingAdapters {
     @BindingAdapter("duration_value")
     public static void formatSecondd(View view , String duration){
         TextView textView = (TextView) view;
-        int durationInt =Integer.parseInt(duration);
+        int durationInt = Integer.parseInt(duration);
         textView.setText(BasicTools.formatSeconds(durationInt));
     }
 
@@ -40,6 +40,9 @@ final class BindingAdapters {
             view.setVisibility(View.GONE);
         }
     }
+
+//    @BindingAdapter("android:onClick")
+//    public static void onClick(View view,)
 
 
 

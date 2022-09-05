@@ -5,6 +5,22 @@
     app:startDestination="@id/mainPageFragment"
     android:id="@+id/navigation_graph">
 
+    <activity
+        android:id="@+id/splashActivity"
+        android:name="com.clicagency.lastfmapp.view.activities.SplashActivity"
+        tools:layout="@layout/activity_splash"
+        android:label="SplashActivity" />
+
+    <activity
+        android:id="@+id/mainActivity"
+        tools:layout="@layout/activity_main"
+        android:label="main_activity"
+        android:name="com.clicagency.lastfmapp.view.activities.MainActivity"
+        >
+    </activity>
+
+
+
     <fragment
       android:id="@+id/mainPageFragment"
       android:name="com.clicagency.lastfmapp.view.fragments.mainFragment.MainPageFragment"
@@ -44,5 +60,6 @@
         tools:layout="@layout/fragment_album_details">
 
     </fragment>
+
 
 </navigation>

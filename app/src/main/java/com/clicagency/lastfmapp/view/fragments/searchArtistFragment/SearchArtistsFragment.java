@@ -93,6 +93,13 @@ public class SearchArtistsFragment extends BaseFragment<SearchArtistViewModel, F
             }
         });
 
+        dataBinding.retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.getArtists();
+            }
+        });
+
 //        adapter.setClickListener(new IOnClick() {
 //            @Override
 //            public void itemClicked(View v, int position) {
@@ -222,25 +229,25 @@ public class SearchArtistsFragment extends BaseFragment<SearchArtistViewModel, F
             Bundle bundle = new Bundle();
             bundle.putSerializable("key",artist);
 //            parent.show_fragment2(albumsArtistFragment, false);
-            parent.navController.navigate(R.id.albumsArtistFragment,bundle);
+            parent.navController.navigate(R.id.action_searchArtistFragment_to_albumsArtistFragment,bundle);
         });
         dataBinding.recycler.setAdapter(adapter);
 //        adapter.setArtistsList(data.getArtists().getArtist());
         dataBinding.progressMain.setVisibility(View.GONE);
     }
     private void buildFailed() {
-        dataBinding.progressMain.setVisibility(View.GONE);
-        dataBinding.recycler.setVisibility(View.GONE);
+//        dataBinding.progressMain.setVisibility(View.GONE);
+//        dataBinding.recycler.setVisibility(View.GONE);
         parent.showTostMessage(R.string.failed_to_connect);
         dataBinding.rootLayout.setRefreshing(false);
 
     }
     private void buildLoadingSection() {
         dataBinding.rootLayout.setRefreshing(true);
-        dataBinding.recycler.setVisibility(View.GONE);
-        dataBinding.retryBtn.setVisibility(View.GONE);
-        dataBinding.emptyTv.setVisibility(View.GONE);
-        dataBinding.progressMain.setVisibility(View.VISIBLE);
+//        dataBinding.recycler.setVisibility(View.GONE);
+//        dataBinding.retryBtn.setVisibility(View.GONE);
+//        dataBinding.emptyTv.setVisibility(View.GONE);
+//        dataBinding.progressMain.setVisibility(View.VISIBLE);
     }
     private void loadArtists(String query) {
 //          viewModel.getArtists(query);

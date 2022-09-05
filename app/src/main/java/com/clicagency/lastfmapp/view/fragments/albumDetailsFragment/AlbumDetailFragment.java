@@ -99,13 +99,15 @@ public class AlbumDetailFragment extends BaseFragment<AlbumDetailsViewModel, Fra
 
         Bundle bundle = getArguments();
         if (bundle != null){
-            album = (Album) bundle.getSerializable("Key");
+            album = (Album) bundle.getSerializable("key");
 
-            albumName = album.getName();
-            if (album.getArtist() != null)
-                artistName = album.getArtist().getName();
-            else
-                artistName = album.getArtist_name();
+           if(album != null){
+               albumName = album.getName();
+               if (album.getArtist() != null)
+                   artistName = album.getArtist().getName();
+               else
+                   artistName = album.getArtist_name();
+           }
 
         }
 

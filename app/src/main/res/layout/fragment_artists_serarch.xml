@@ -2,6 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.clicagency.lastfmapp.view.fragments.searchArtistFragment.SearchArtistViewModel"/>
+        <variable
+            name="status"
+            type="com.clicagency.lastfmapp.data.remote.models.State.Status" />
+    </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_seaarch_fragmnet_tabs"
         android:layout_width="match_parent"
@@ -87,21 +96,26 @@
                     android:id="@+id/list_layout"
                     android:layout_weight="100"
                     android:layout_height="0dp">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler"
+                    <FrameLayout
+                        android:visibility="@{viewModel.mutableLiveDataArtistsResponse.Status == status.SUCCESS}"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="vertical"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:id="@+id/empty_tv"
-                        android:visibility="gone"
-                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                        android:textColor="@color/light_gray"
-                        android:text="@string/nothing_to_show"/>
+                        android:layout_height="match_parent">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="vertical"
+                            />
+                        <TextView
+                            android:visibility="@{viewModel.mutableLiveDataArtistsResponse.data.artists.artist.size()==0}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/empty_tv"
+                            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                            android:textColor="@color/light_gray"
+                            android:text="@string/nothing_to_show"/>
+                    </FrameLayout>
                     <ImageView
                         android:layout_width="@dimen/d4"
                         android:layout_height="@dimen/d4"
@@ -110,7 +124,7 @@
                         android:padding="@dimen/d0_4"
                         android:clickable="true"
                         android:focusable="true"
-                        android:visibility="gone"
+                        android:visibility="@{viewModel.mutableLiveDataArtistsResponse.Status == status.FAILED}"
                         android:theme="@style/LastFmCard"
                         android:id="@+id/retry_btn"
                         android:layout_gravity="center"
@@ -120,7 +134,7 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/d0_4"
                         android:layout_marginTop="@dimen/d0_4"
-                        android:visibility="visible"
+                        android:visibility="@{viewModel.mutableLiveDataArtistsResponse.Status == status.LOADING}"
                         android:id="@+id/progress_main"
                         style="@android:style/Widget.DeviceDefault.ProgressBar.Small"
                         android:layout_height="wrap_content" />
@@ -137,8 +151,5 @@
 
             </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

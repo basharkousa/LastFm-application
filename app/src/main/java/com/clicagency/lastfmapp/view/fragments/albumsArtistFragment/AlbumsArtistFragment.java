@@ -169,9 +169,9 @@ public class AlbumsArtistFragment extends BaseFragment<AlbumsArtistViewModel, Fr
 //                if (artist.getName() != null)
 //                    albumsArtistFragment.setArtist(artist.getName());
             Bundle bundle = new Bundle();
-            bundle.putSerializable("Key",album);
+            bundle.putSerializable("key",album);
 //            parent.show_fragment2(albumsArtistFragment, false);
-            parent.navController.navigate(R.id.albumDetailsFragment,bundle);
+            parent.navController.navigate(R.id.action_albumsArtistFragment_to_albumDetailsFragment,bundle);
         });
         viewModel.getAlbumsLiveData().observe(this, new Observer<State<AlbumsArtistRespnce>>() {
             @Override
